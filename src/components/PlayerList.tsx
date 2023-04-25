@@ -20,17 +20,12 @@ const PlayerList = () => {
   return (
     <Container fluid className={styles.playerListLayout}>
       <h3>All-Time Player Statistics 1984 – present</h3>
-      <Table
-        striped
-        bordered
-        hover
-        style={{ width: '88%', margin: 'auto', textAlign: 'center' }}
-      >
-        <thead
-          style={{ background: '#339900', color: 'white', fontSize: '13px' }}
-        >
+      <Table bordered hover className={styles.table}>
+        <thead>
           <tr>
-            <th style={{ width: '50%' }}>Player (Sort A-Z)</th>
+            <th style={{ width: '50%', lineHeight: '2.2rem' }}>
+              Player (Sort A-Z)
+            </th>
             <th>A Team Apps</th>
             <th>A Team Goals</th>
             <th>B Team Apps</th>
@@ -40,15 +35,22 @@ const PlayerList = () => {
           </tr>
         </thead>
         <tbody>
-          {players.map(player => (
+          {players.map((player) => (
             <tr>
-              <td><strong>{player.lastName.toUpperCase()}</strong>, {player.firstName}</td>
+              <td>
+                <strong>{player.lastName.toUpperCase()}</strong>,{' '}
+                {player.firstName}
+              </td>
               <td>{player.aTeamApps}</td>
               <td>{player.aTeamGoals}</td>
               <td>{player.bTeamApps}</td>
               <td>{player.bTeamGoals}</td>
-              <td>{player.aTeamApps + player.bTeamApps}</td>
-              <td>{player.aTeamGoals + player.bTeamGoals}</td>
+              <td>
+                <strong>{player.aTeamApps + player.bTeamApps}</strong>
+              </td>
+              <td>
+                <strong>{player.aTeamGoals + player.bTeamGoals}</strong>
+              </td>
             </tr>
           ))}
         </tbody>
