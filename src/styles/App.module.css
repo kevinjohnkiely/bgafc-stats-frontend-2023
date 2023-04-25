@@ -1,0 +1,24 @@
+.headerImageFullWidth {
+    width: 100%;
+}
+
+.pageMarginTop {
+    margin-top: 1rem;
+}
+
+.pageMaxWidth {
+    max-width: 1050px;
+}
+
+.footerText {
+    background-color: #336600;
+    text-align: center;
+    color: white;
+    font-size: 0.75rem;
+    padding: 2rem 0 2rem 0;
+    border-top: 3px solid #ffcb00;
+    border-bottom: 3px solid #ffcb00;
+    background-image: url('../assets/images/footercrest.jpg');
+    background-repeat: no-repeat;
+    background-position: left top;
+}

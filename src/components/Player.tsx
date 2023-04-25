@@ -1,3 +1,4 @@
+import { Card } from 'react-bootstrap';
 import { Player as PlayerModel } from '../models/player';
 
 interface PlayerProps {
@@ -5,7 +6,16 @@ interface PlayerProps {
 }
 
 const Player = ({ player }: PlayerProps) => {
-  return <div>Player</div>;
+  const { firstName, lastName } = player;
+  return (
+    <Card>
+      <Card.Body>
+        <Card.Title>
+          {firstName} {lastName}
+        </Card.Title>
+      </Card.Body>
+    </Card>
+  );
 };
 
 export default Player;

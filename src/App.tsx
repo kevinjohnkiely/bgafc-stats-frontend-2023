@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
-import { Player } from './models/player';
+import Container from 'react-bootstrap/Container';
+import Image from 'react-bootstrap/Image';
+import PlayerList from './components/PlayerList';
+import header from './assets/images/header.jpg';
+import styles from './styles/App.module.css';
 
-function App() {
-  const [players, setPlayers] = useState<Player[]>([]);
-
-  useEffect(() => {
-    const fetchPlayers = async () => {
-      const data = await fetch('/api/v1/players');
-      const json = await data.json();
-      console.log(json.data)
-      setPlayers(json.data);
-      return json;
-    };
-    fetchPlayers().catch(console.error);
-  }, []);
-
+const App = () => {
   return (
-    <div className='App'>
-      <h1>Players:</h1>
-      <p>{JSON.stringify(players)}</p>
-    </div>
+    <Container className={styles.pageMaxWidth}>
+      <header className={styles.pageMarginTop}>
+        <Image
+          src={header}
+          alt='Ballingarry AFC stats 1984 - Present'
+          fluid
+          className={styles.headerImageFullWidth}
+        />
+      </header>
+      <PlayerList />
+      <footer className={styles.footerText}>Ballingarry AFC - Founded 1984 - Members of Limerick Desmond Football League, Football Association of Ireland.</footer>
+    </Container>
   );
-}
+};
 
 export default App;
