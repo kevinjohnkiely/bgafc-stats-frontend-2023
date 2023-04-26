@@ -3,6 +3,7 @@ import Image from 'react-bootstrap/Image';
 import PlayerList from './components/PlayerList';
 import header from './assets/images/header.jpg';
 import styles from './styles/App.module.css';
+import Test from './components/MainNav';
 
 const App = () => {
   return (
@@ -15,8 +16,12 @@ const App = () => {
           className={styles.headerImageFullWidth}
         />
       </header>
+      <Test/>
       <PlayerList />
-      <footer className={styles.footerText}>Ballingarry AFC - Founded 1984 - Members of Limerick Desmond Football League, Football Association of Ireland.</footer>
+      <footer className={styles.footerText}>
+        Ballingarry AFC - Founded 1984 - Members of Limerick Desmond Football
+        League, Football Association of Ireland.
+      </footer>
     </Container>
   );
 };
