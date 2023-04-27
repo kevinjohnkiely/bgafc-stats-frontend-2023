@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import Loader from '../components/common/Loader';
+import Alert from '../components/common/Alert';
 import blank from '../assets/images/blank.jpg';
 
 import { Player as PlayerModel } from '../models/player';
@@ -22,8 +23,9 @@ const PlayerSingle = () => {
       setLoading(true);
       const data = await fetch(`/api/v1/players/${slug}`);
       const json = await data.json();
+      console.log(json.message)
       setLoading(false);
-      console.log(json.data.player);
+      // console.log(json.data.player);
       setPlayer(json.data.player);
       return json;
     };
@@ -51,7 +53,7 @@ const PlayerSingle = () => {
               <Image src={blank} />
             </Col>
             <Col lg={10}>
-              Appearances: 
+              Appearances: {player?.totalApps} Goals: {player?.totalGoals}
             </Col>
           </Row>
           <Row>table here</Row>

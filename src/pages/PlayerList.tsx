@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Player } from '../models/player';
+import { Player as PlayerModel } from '../models/player';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import styles from './../styles/PlayerList.module.css';
@@ -7,7 +7,7 @@ import Loader from '../components/common/Loader';
 import { Link } from 'react-router-dom';
 
 const PlayerList = () => {
-  const [players, setPlayers] = useState<Player[]>([]);
+  const [players, setPlayers] = useState<PlayerModel[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -15,8 +15,8 @@ const PlayerList = () => {
       setLoading(true);
       const data = await fetch('/api/v1/players');
       const json = await data.json();
-      setPlayers(json.data.players);
       setLoading(false);
+      setPlayers(json.data.players);
       return json;
     };
     fetchPlayers().catch((e) => {
@@ -59,10 +59,10 @@ const PlayerList = () => {
                 <td>{player.bTeamApps}</td>
                 <td>{player.bTeamGoals}</td>
                 <td>
-                  <strong>{player.aTeamApps + player.bTeamApps}</strong>
+                  <strong>{player.totalApps}</strong>
                 </td>
                 <td>
-                  <strong>{player.aTeamGoals + player.bTeamGoals}</strong>
+                  <strong>{player.totalGoals}</strong>
                 </td>
               </tr>
             ))}

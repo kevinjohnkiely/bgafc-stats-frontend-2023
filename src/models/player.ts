@@ -13,4 +13,6 @@ export interface Player {
   aTeamGoals: number;
   bTeamApps: number;
   bTeamGoals: number;
+  totalApps: number;
+  totalGoals: number;
 }
