@@ -1,4 +1,5 @@
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 import styles from './../styles/MainNav.module.css'
 
 const MainNav = () => {
@@ -9,7 +10,7 @@ const MainNav = () => {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-auto'>
             <Nav.Link href='#home'>Main Site</Nav.Link>
-            <Nav.Link href='#link'>All Players</Nav.Link>
+            <Nav.Link as={Link} to={'/'}>All Players</Nav.Link>
             <Nav.Link href='#link'>Add A Player</Nav.Link>
             <Nav.Link href='#link'>Login/Logout</Nav.Link>
             <NavDropdown title='Dropdown' id='basic-nav-dropdown'>

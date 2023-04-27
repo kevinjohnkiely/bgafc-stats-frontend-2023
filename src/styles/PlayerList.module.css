@@ -1,7 +1,7 @@
-.playerListLayout {
+/* .playerListLayout {
     background-color: white;
     padding: 1.5rem 0 1.5rem 0;
-}
+} */
 
 .playerListLayout h3 {
     color: #336600;
@@ -9,10 +9,20 @@
     margin-bottom: 1rem;
 }
 
-.table {
-    width: 88%;
+table {
+    width: 94%;
     margin: auto;
     text-align: center;
+}
+
+table a, a:visited {
+    color: #336600;
+    text-decoration: none;
+}
+
+table a:hover, a:focus {
+    color: #ffcb00;
+    text-decoration: underline;
 }
 
 thead {

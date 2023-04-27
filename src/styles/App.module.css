@@ -10,6 +10,11 @@
     max-width: 1050px;
 }
 
+.routerPanel {
+    background-color: white;
+    padding: 1.5rem;
+}
+
 .footerText {
     background-color: #336600;
     text-align: center;

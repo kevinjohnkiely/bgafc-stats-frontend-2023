@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Player } from './../models/player';
+import { Player } from '../models/player';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import styles from './../styles/PlayerList.module.css';
-import Loader from './common/Loader';
+import Loader from '../components/common/Loader';
+import { Link } from 'react-router-dom';
 
 const PlayerList = () => {
   const [players, setPlayers] = useState<Player[]>([]);
@@ -30,7 +31,7 @@ const PlayerList = () => {
       {loading ? (
         <Loader />
       ) : (
-        <Table bordered hover className={styles.table}>
+        <Table bordered hover>
           <thead>
             <tr>
               <th style={{ width: '50%', lineHeight: '2.2rem' }}>
@@ -46,10 +47,12 @@ const PlayerList = () => {
           </thead>
           <tbody>
             {players.map((player) => (
-              <tr>
+              <tr key={player._id}>
                 <td>
-                  <strong>{player.lastName.toUpperCase()}</strong>,{' '}
-                  {player.firstName}
+                  <Link to={`/players/${player.slug}`}>
+                    <strong>{player.lastName.toUpperCase()}</strong>,{' '}
+                    {player.firstName}
+                  </Link>
                 </td>
                 <td>{player.aTeamApps}</td>
                 <td>{player.aTeamGoals}</td>

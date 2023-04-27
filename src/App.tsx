@@ -1,9 +1,12 @@
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
-import PlayerList from './components/PlayerList';
+import PlayerList from './pages/PlayerList';
 import header from './assets/images/header.jpg';
 import styles from './styles/App.module.css';
-import Test from './components/MainNav';
+import MainNav from './components/MainNav';
+import { Routes, Route } from 'react-router-dom';
+import PlayerSingle from './pages/PlayerSingle';
+import NotFoundPage from './pages/NotFoundPage';
 
 const App = () => {
   return (
@@ -16,8 +19,15 @@ const App = () => {
           className={styles.headerImageFullWidth}
         />
       </header>
-      <Test/>
-      <PlayerList />
+      <MainNav />
+      <Container fluid className={styles.routerPanel}>
+        <Routes>
+          <Route path='/' element={<PlayerList />} />
+          <Route path='/players/:slug' element={<PlayerSingle />} />
+          <Route path='/*' element={<NotFoundPage />} />
+        </Routes>
+      </Container>
+
       <footer className={styles.footerText}>
         Ballingarry AFC - Founded 1984 - Members of Limerick Desmond Football
         League, Football Association of Ireland.
