@@ -22,23 +22,27 @@ const PlayerSingle = () => {
   useEffect(() => {
     const fetchPlayer = async () => {
       setLoading(true);
-      const data = await fetch(`/api/v1/playelrs/${slug}`);
+      const data = await fetch(`/api/v1/players/${slug}`);
+      if (data.status === 500) {
+        setError('Server Error: Please try again soon.')
+        setLoading(false)
+      }
       const json = await data.json();
       if (json.message) {
         console.log(json.message);
         setError(json.message)
       } else {
-        console.log(json.data.player);
+        setPlayer(json.data.player);
       }
       setLoading(false);
-      setPlayer(json.data.player);
+      
       // return json;
     };
-    fetchPlayer();
-    // fetchPlayer().catch((e) => {
-    //   setLoading(false);
-    //   console.log(e.message);
-    // });
+    // fetchPlayer();
+    fetchPlayer().catch((e) => {
+      setLoading(false);
+      console.log(e.message);
+    });
   }, [slug]);
 
   return (
@@ -47,7 +51,6 @@ const PlayerSingle = () => {
         <Loader />
       ) : error ? (<Notification message={error} />) : (
         <>
-        
           <Row>
             <h3>
               {player?.firstName} {player?.lastName}

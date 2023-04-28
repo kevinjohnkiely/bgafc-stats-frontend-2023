@@ -9,8 +9,8 @@
     margin-bottom: 1rem;
 }
 
-table {
-    width: 94%;
+.playerTable {
+    width: 88%;
     margin: auto;
     text-align: center;
 }
