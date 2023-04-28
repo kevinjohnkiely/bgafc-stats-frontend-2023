@@ -31,7 +31,7 @@ const PlayerList = () => {
       {loading ? (
         <Loader />
       ) : (
-        <Table bordered hover>
+        <Table bordered hover className={styles.playerTable}>
           <thead>
             <tr>
               <th style={{ width: '50%', lineHeight: '2.2rem' }}>

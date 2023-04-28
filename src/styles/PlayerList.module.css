@@ -15,23 +15,23 @@ table {
     text-align: center;
 }
 
-table a, a:visited {
+.playerTable a, a:visited {
     color: #336600;
     text-decoration: none;
 }
 
-table a:hover, a:focus {
+.playerTable a:hover, a:focus {
     color: #ffcb00;
     text-decoration: underline;
 }
 
-thead {
+.playerTable thead {
     background-color: #339900;
     color: white;
     font-size: 0.75rem;
 }
 
-td {
+.playerTable td {
     font-size: 0.9rem;
     color: #336600;
 }

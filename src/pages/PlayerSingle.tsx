@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import Loader from '../components/common/Loader';
-import Alert from '../components/common/Alert';
+import Notification from '../components/common/Notification';
 import blank from '../assets/images/blank.jpg';
 
 import { Player as PlayerModel } from '../models/player';
@@ -15,33 +15,39 @@ import { Container, Row, Col, Image } from 'react-bootstrap';
 const PlayerSingle = () => {
   const [player, setPlayer] = useState<PlayerModel>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   const { slug } = useParams();
 
   useEffect(() => {
     const fetchPlayer = async () => {
       setLoading(true);
-      const data = await fetch(`/api/v1/players/${slug}`);
+      const data = await fetch(`/api/v1/playelrs/${slug}`);
       const json = await data.json();
-      console.log(json.message)
+      if (json.message) {
+        console.log(json.message);
+        setError(json.message)
+      } else {
+        console.log(json.data.player);
+      }
       setLoading(false);
-      // console.log(json.data.player);
       setPlayer(json.data.player);
-      return json;
+      // return json;
     };
-    fetchPlayer().catch((e) => {
-      setLoading(false);
-      console.log(e.message);
-      // alert(e);
-    });
+    fetchPlayer();
+    // fetchPlayer().catch((e) => {
+    //   setLoading(false);
+    //   console.log(e.message);
+    // });
   }, [slug]);
 
   return (
     <Container fluid style={{ padding: '0 5rem 0 5rem' }}>
       {loading ? (
         <Loader />
-      ) : (
+      ) : error ? (<Notification message={error} />) : (
         <>
+        
           <Row>
             <h3>
               {player?.firstName} {player?.lastName}
