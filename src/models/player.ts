@@ -1,3 +1,5 @@
+import { Season } from './season';
+
 export interface Player {
   _id: string;
   firstName: string;
@@ -15,5 +17,5 @@ export interface Player {
   bTeamGoals: number;
   totalApps: number;
   totalGoals: number;
-  seasons: [{}]
+  seasons: [Season];
 }

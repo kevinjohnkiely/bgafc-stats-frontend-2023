@@ -103,13 +103,50 @@ const PlayerSingle = () => {
                   <th>Lge C</th>
                   <th>Reidy C</th>
                   <th>Hogan C</th>
+                  <th>Total</th>
+                  <th>Career</th>
                 </tr>
               </thead>
               <tbody>
-                {}
-                <tr>
-                  <td>asdfsa</td>
-                </tr>
+                {player?.seasons.map((season) => (
+                  <tr>
+                    <td>{season.season}</td>
+                    <td>{season.team}</td>
+                    <td>{season.division}</td>
+                    <td>
+                      {season.lge_apps} ({season.lge_goals})
+                    </td>
+                    <td>
+                      {season.fai_apps} ({season.fai_goals})
+                    </td>
+                    <td>
+                      {season.mjc_apps} ({season.mjc_goals})
+                    </td>
+                    <td>
+                      {season.msc_apps} ({season.msc_goals})
+                    </td>
+                    <td>
+                      {season.desc_apps} ({season.desc_goals})
+                    </td>
+                    <td>
+                      {season.lgec_apps} ({season.lgec_goals})
+                    </td>
+                    <td>
+                      {season.reidyc_apps} ({season.reidyc_goals})
+                    </td>
+                    <td>
+                      {season.hoganc_apps} ({season.hoganc_goals})
+                    </td>
+                    <td>
+                      {season.team === 'A'
+                        ? `${season.seasonTotalAppsA} (${season.seasonTotalGoalsA})`
+                        : `${season.seasonTotalAppsB} (${season.seasonTotalGoalsB})`}
+                    </td>
+                    <td>
+                      {season.hoganc_apps} ({season.hoganc_goals})
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </Table>
           </Row>
