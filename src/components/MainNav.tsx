@@ -4,7 +4,7 @@ import styles from './../styles/MainNav.module.css'
 
 const MainNav = () => {
   return (
-    <Navbar className={styles.navBGColor} expand='sm'>
+    <Navbar className={styles.bgDark} variant='dark' expand='sm'>
       <Container>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>

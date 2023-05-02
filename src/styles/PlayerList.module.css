@@ -15,12 +15,12 @@
     text-align: center;
 }
 
-.playerTable a, a:visited {
+.playerTable a {
     color: #336600;
     text-decoration: none;
 }
 
-.playerTable a:hover, a:focus {
+.playerTable a:hover {
     color: #ffcb00;
     text-decoration: underline;
 }

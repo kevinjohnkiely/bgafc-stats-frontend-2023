@@ -3,9 +3,10 @@ import { useParams } from 'react-router';
 import Loader from '../components/common/Loader';
 import Notification from '../components/common/Notification';
 import blank from '../assets/images/blank.jpg';
+import styles from './../styles/PlayerSingle.module.css';
 
 import { Player as PlayerModel } from '../models/player';
-import { Container, Row, Col, Image } from 'react-bootstrap';
+import { Container, Row, Col, Image, Table } from 'react-bootstrap';
 
 // interface PlayerProps {
 // player: PlayerModel;
@@ -24,18 +25,18 @@ const PlayerSingle = () => {
       setLoading(true);
       const data = await fetch(`/api/v1/players/${slug}`);
       if (data.status === 500) {
-        setError('Server Error: Please try again soon.')
-        setLoading(false)
+        setError('Server Error: Please try again soon.');
+        setLoading(false);
       }
       const json = await data.json();
       if (json.message) {
         console.log(json.message);
-        setError(json.message)
+        setError(json.message);
       } else {
         setPlayer(json.data.player);
       }
       setLoading(false);
-      
+
       // return json;
     };
     // fetchPlayer();
@@ -49,23 +50,69 @@ const PlayerSingle = () => {
     <Container fluid style={{ padding: '0 5rem 0 5rem' }}>
       {loading ? (
         <Loader />
-      ) : error ? (<Notification message={error} />) : (
+      ) : error ? (
+        <Notification message={error} />
+      ) : (
         <>
           <Row>
-            <h3>
+            <h3 className={styles.playerHeading}>
               {player?.firstName} {player?.lastName}
             </h3>
           </Row>
-          <hr />
+
           <Row>
-            <Col lg={2}>
+            <Col lg={2} md={4}>
               <Image src={blank} />
             </Col>
-            <Col lg={10}>
-              Appearances: {player?.totalApps} Goals: {player?.totalGoals}
+            <Col lg={10} md={8}>
+              <span className={styles.greenBold}>
+                Appearances: {player?.totalApps} Goals: {player?.totalGoals}
+              </span>
+              <br />
+              Date of Birth: {player?.dateOfBirth}
+              <br />
+              Position: {player?.position}
+              <br />
+              Debut: {player?.debut}
+              <br />
+              First Goal: {player?.firstGoal}
             </Col>
           </Row>
-          <Row>table here</Row>
+          <Row>
+            <Col className={styles.honoursPanel}>
+              Honours: {player?.honours}
+            </Col>
+          </Row>
+          <Row>
+            <Col className={styles.appsPanel}>
+              Appearances (Goals in brackets)
+            </Col>
+          </Row>
+          <Row>
+            <Table bordered hover className={styles.statsTable}>
+              <thead>
+                <tr>
+                  <th>Season</th>
+                  <th>Team</th>
+                  <th>Div</th>
+                  <th>Lge</th>
+                  <th>FAI</th>
+                  <th>MJC</th>
+                  <th>MSC</th>
+                  <th>Des C</th>
+                  <th>Lge C</th>
+                  <th>Reidy C</th>
+                  <th>Hogan C</th>
+                </tr>
+              </thead>
+              <tbody>
+                {}
+                <tr>
+                  <td>asdfsa</td>
+                </tr>
+              </tbody>
+            </Table>
+          </Row>
         </>
       )}
     </Container>

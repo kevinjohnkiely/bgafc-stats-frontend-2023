@@ -8,6 +8,7 @@ import Notification from '../components/common/Notification';
 import { Link } from 'react-router-dom';
 import { BiEdit } from 'react-icons/bi';
 import { TiDelete } from 'react-icons/ti';
+import { Row, Col } from 'react-bootstrap';
 
 const PlayerList = () => {
   const [players, setPlayers] = useState<PlayerModel[]>([]);
@@ -65,12 +66,19 @@ const PlayerList = () => {
             {players.map((player) => (
               <tr key={player._id}>
                 <td style={{ textAlign: 'left' }}>
-                  <Link to={`/players/${player.slug}`}>
-                    <strong>{player.lastName.toUpperCase()}</strong>,{' '}
-                    {player.firstName}
-                  </Link>{' '}
-                  <BiEdit size={24} color='#339900' />{' '}
-                  <TiDelete size={24} color='red' />
+                  <Row className='justify-content-between'>
+                    <Col>
+                      <Link to={`/players/${player.slug}`}>
+                        <strong>{player.lastName.toUpperCase()}</strong>,{' '}
+                        {player.firstName}
+                      </Link>
+                    </Col>
+
+                    <Col lg={3}>
+                      <BiEdit size={24} color='#339900' />{' '}
+                      <TiDelete size={24} color='red' />
+                    </Col>
+                  </Row>
                 </td>
                 <td>{player.aTeamApps}</td>
                 <td>{player.aTeamGoals}</td>

@@ -1,0 +1,38 @@
+.playerHeading {
+    margin-bottom: 2rem;
+    color: #336600;
+}
+
+.greenBold {
+    font-weight: bold;
+    color: #336600;
+}
+
+.honoursPanel {
+    background-color: #ffcb00;
+    padding: 0.8rem;
+    margin-top: 0.8rem;
+    border-top: 1px solid #336600;
+    border-bottom: 1px solid #336600;
+}
+
+.appsPanel {
+    padding: 0.8rem;
+}
+
+.statsTable {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+.statsTable thead {
+    background-color: #339900;
+    color: white;
+    font-size: 0.75rem;
+}
+
+.statsTable td {
+    font-size: 0.9rem;
+    color: #336600;
+}
