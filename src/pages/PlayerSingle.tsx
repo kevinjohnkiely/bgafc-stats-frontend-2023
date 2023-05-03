@@ -104,11 +104,11 @@ const PlayerSingle = () => {
                   <th>Reidy C</th>
                   <th>Hogan C</th>
                   <th>Total</th>
-                  <th>Career</th>
+                  
                 </tr>
               </thead>
               <tbody>
-                {player?.seasons.map((season) => (
+                {player?.seasons.map((season, index) => (
                   <tr>
                     <td>{season.season}</td>
                     <td>{season.team}</td>
@@ -141,9 +141,6 @@ const PlayerSingle = () => {
                       {season.team === 'A'
                         ? `${season.seasonTotalAppsA} (${season.seasonTotalGoalsA})`
                         : `${season.seasonTotalAppsB} (${season.seasonTotalGoalsB})`}
-                    </td>
-                    <td>
-                      {season.hoganc_apps} ({season.hoganc_goals})
                     </td>
                   </tr>
                 ))}

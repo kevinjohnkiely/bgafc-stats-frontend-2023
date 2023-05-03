@@ -9,6 +9,7 @@ import PlayerSingle from './pages/PlayerSingle';
 import NotFoundPage from './pages/NotFoundPage';
 
 const App = () => {
+
   return (
     <Container className={styles.pageMaxWidth}>
       <header className={styles.pageMarginTop}>

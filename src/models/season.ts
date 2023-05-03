@@ -23,4 +23,5 @@ export interface Season {
     seasonTotalGoalsA: number;
     seasonTotalAppsB: number;
     seasonTotalGoalsB: number;
+    cumulative: number;
 }
