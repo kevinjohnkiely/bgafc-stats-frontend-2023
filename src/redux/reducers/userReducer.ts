@@ -1,4 +1,6 @@
 import { User } from '../../models/user';
+import { ActionType } from '../actionTypes';
+import { UserAction } from './actions/user';
 
 interface CurrentUserState {
   loading: boolean;
@@ -6,18 +8,22 @@ interface CurrentUserState {
   data: User | null;
 }
 
-interface Action {
-  type: string;
-  payload?: any;
-}
+const initState = {
+  loading: false,
+  error: null,
+  data: null,
+};
 
-const reducer = (state: CurrentUserState, action: Action): CurrentUserState => {
+const reducer = (
+  state: CurrentUserState = initState,
+  action: UserAction
+): CurrentUserState => {
   switch (action.type) {
-    case 'GET_LOGGED_IN_USER_INIT':
+    case ActionType.GET_LOGGED_IN_USER_INIT:
       return { loading: true, error: null, data: null };
-    case 'GET_LOGGED_IN_USER_SUCCESS':
+    case ActionType.GET_LOGGED_IN_USER_SUCCESS:
       return { loading: false, error: null, data: action.payload };
-    case 'GET_LOGGED_IN_USER_ERROR':
+    case ActionType.GET_LOGGED_IN_USER_ERROR:
       return { loading: false, error: action.payload, data: null };
     default:
       return state;

@@ -9,30 +9,39 @@ import { Link } from 'react-router-dom';
 import { BiEdit } from 'react-icons/bi';
 import { TiDelete } from 'react-icons/ti';
 import { Row, Col } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionCreators } from '../redux';
 
 const PlayerList = () => {
+  console.log('rendering');
   const [players, setPlayers] = useState<PlayerModel[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  // const [loading, setLoading] = useState<boolean>(false);
+  // const [error, setError] = useState<string>('');
+  const dispatch = useDispatch();
+  const { data, error, loading } = useSelector((state: any) => state.user); 
 
   useEffect(() => {
-    const fetchPlayers = async () => {
-      setLoading(true);
-      const data = await fetch('/api/v1/players');
-      if (data.status === 500) {
-        setError('Server Error: Please try again soon.');
-        setLoading(false);
-      }
-      const json = await data.json();
-      if (json.message) {
-        setError(json.message);
-      } else {
-        setPlayers(json.data.players);
-      }
-      setLoading(false);
-    };
-    fetchPlayers();
-  }, []);
+    console.log('use effect running');
+    // const fetchPlayers = async () => {
+    //   setLoading(true);
+    //   const data = await fetch('/api/v1/players');
+    //   if (data.status === 500) {
+    //     setError('Server Error: Please try again soon.');
+    //     setLoading(false);
+    //   }
+    //   const json = await data.json();
+    //   if (json.message) {
+    //     setError(json.message);
+    //   } else {
+    //     setPlayers(json.data.players);
+    //   }
+    //   setLoading(false);
+    // };
+    // fetchPlayers();
+
+    const x = dispatch(actionCreators.getLoggedInUser() as any);
+    console.log(x)
+  }, [dispatch]);
 
   return (
     <Container fluid className={styles.playerListLayout}>
