@@ -1,46 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Player as PlayerModel } from '../models/player';
+import { useEffect } from 'react';
+import { Col, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
-import styles from './../styles/PlayerList.module.css';
-import Loader from '../components/common/Loader';
-import Notification from '../components/common/Notification';
-import { Link } from 'react-router-dom';
 import { BiEdit } from 'react-icons/bi';
 import { TiDelete } from 'react-icons/ti';
-import { Row, Col } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { actionCreators } from '../redux';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Loader from '../components/common/Loader';
+import Notification from '../components/common/Notification';
+import { Player as PlayerModel } from '../models/player';
+import { playersActionCreators } from '../redux';
+import { useTypedSelector } from '../redux/redux-hooks/useTypedSelector';
+import styles from './../styles/PlayerList.module.css';
 
 const PlayerList = () => {
   console.log('rendering');
-  const [players, setPlayers] = useState<PlayerModel[]>([]);
-  // const [loading, setLoading] = useState<boolean>(false);
-  // const [error, setError] = useState<string>('');
   const dispatch = useDispatch();
-  const { data, error, loading } = useSelector((state: any) => state.user); 
+  const { data, error, loading } = useTypedSelector((state) => state.players);
 
   useEffect(() => {
     console.log('use effect running');
-    // const fetchPlayers = async () => {
-    //   setLoading(true);
-    //   const data = await fetch('/api/v1/players');
-    //   if (data.status === 500) {
-    //     setError('Server Error: Please try again soon.');
-    //     setLoading(false);
-    //   }
-    //   const json = await data.json();
-    //   if (json.message) {
-    //     setError(json.message);
-    //   } else {
-    //     setPlayers(json.data.players);
-    //   }
-    //   setLoading(false);
-    // };
-    // fetchPlayers();
-
-    const x = dispatch(actionCreators.getLoggedInUser() as any);
-    console.log(x)
+    dispatch(playersActionCreators.getPlayers() as any);
   }, [dispatch]);
 
   return (
@@ -72,7 +52,7 @@ const PlayerList = () => {
             </tr>
           </thead>
           <tbody>
-            {players.map((player) => (
+            {data.map((player: PlayerModel) => (
               <tr key={player._id}>
                 <td style={{ textAlign: 'left' }}>
                   <Row className='justify-content-between'>
