@@ -7,6 +7,7 @@ import MainNav from './components/MainNav';
 import { Routes, Route } from 'react-router-dom';
 import PlayerSingle from './pages/PlayerSingle';
 import NotFoundPage from './pages/NotFoundPage';
+import Login from './pages/Login';
 
 const App = () => {
 
@@ -25,6 +26,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<PlayerList />} />
           <Route path='/players/:slug' element={<PlayerSingle />} />
+          <Route path='/login' element={<Login />} />
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
       </Container>
