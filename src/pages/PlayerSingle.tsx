@@ -1,50 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { Col, Container, Image, Row, Table } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
+import blank from '../assets/images/blank.jpg';
 import Loader from '../components/common/Loader';
 import Notification from '../components/common/Notification';
-import blank from '../assets/images/blank.jpg';
+import { playerActionCreators } from '../redux';
+import { useTypedSelector } from '../redux/redux-hooks/useTypedSelector';
 import styles from './../styles/PlayerSingle.module.css';
 
-import { Player as PlayerModel } from '../models/player';
-import { Container, Row, Col, Image, Table } from 'react-bootstrap';
-
-// interface PlayerProps {
-// player: PlayerModel;
-// playerSlug: string
-// }
-
 const PlayerSingle = () => {
-  const [player, setPlayer] = useState<PlayerModel>();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  const dispatch = useDispatch();
+  const { player, error, loading } = useTypedSelector((state) => state.player);
 
   const { slug } = useParams();
 
   useEffect(() => {
-    const fetchPlayer = async () => {
-      setLoading(true);
-      const data = await fetch(`/api/v1/players/${slug}`);
-      if (data.status === 500) {
-        setError('Server Error: Please try again soon.');
-        setLoading(false);
-      }
-      const json = await data.json();
-      if (json.message) {
-        console.log(json.message);
-        setError(json.message);
-      } else {
-        setPlayer(json.data.player);
-      }
-      setLoading(false);
-
-      // return json;
-    };
-    // fetchPlayer();
-    fetchPlayer().catch((e) => {
-      setLoading(false);
-      console.log(e.message);
-    });
-  }, [slug]);
+    if (slug) dispatch(playerActionCreators.getPlayer(slug) as any);
+  }, [dispatch, slug]);
 
   return (
     <Container fluid style={{ padding: '0 5rem 0 5rem' }}>
@@ -104,7 +77,6 @@ const PlayerSingle = () => {
                   <th>Reidy C</th>
                   <th>Hogan C</th>
                   <th>Total</th>
-                  
                 </tr>
               </thead>
               <tbody>

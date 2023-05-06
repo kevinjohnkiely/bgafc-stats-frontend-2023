@@ -16,7 +16,7 @@ import styles from './../styles/PlayerList.module.css';
 const PlayerList = () => {
   console.log('rendering');
   const dispatch = useDispatch();
-  const { data, error, loading } = useTypedSelector((state) => state.players);
+  const { players, error, loading } = useTypedSelector((state) => state.players);
 
   useEffect(() => {
     console.log('use effect running');
@@ -52,7 +52,7 @@ const PlayerList = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((player: PlayerModel) => (
+            {players.map((player: PlayerModel) => (
               <tr key={player._id}>
                 <td style={{ textAlign: 'left' }}>
                   <Row className='justify-content-between'>

@@ -5,13 +5,13 @@ import { PlayersAction } from './actions/players';
 interface CurrentPlayersState {
   loading: boolean;
   error: string | null;
-  data: Player[];
+  players: Player[];
 }
 
 const initState = {
   loading: false,
   error: null,
-  data: [],
+  players: [],
 };
 
 const reducer = (
@@ -20,11 +20,11 @@ const reducer = (
 ): CurrentPlayersState => {
   switch (action.type) {
     case ActionType.GET_PLAYERS_INIT:
-      return { loading: true, error: null, data: [] };
+      return { loading: true, error: null, players: [] };
     case ActionType.GET_PLAYERS_SUCCESS:
-      return { loading: false, error: null, data: action.payload };
+      return { loading: false, error: null, players: action.payload };
     case ActionType.GET_PLAYERS_ERROR:
-      return { loading: false, error: action.payload, data: [] };
+      return { loading: false, error: action.payload, players: [] };
     default:
       return state;
   }
