@@ -10,7 +10,6 @@ import NotFoundPage from './pages/NotFoundPage';
 import Login from './pages/Login';
 
 const App = () => {
-
   return (
     <Container className={styles.pageMaxWidth}>
       <header className={styles.pageMarginTop}>

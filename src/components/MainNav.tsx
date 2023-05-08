@@ -1,8 +1,28 @@
-import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom'
-import styles from './../styles/MainNav.module.css'
+import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import styles from './../styles/MainNav.module.css';
+import { useTypedSelector } from '../redux/redux-hooks/useTypedSelector';
+import { useEffect } from 'react';
+import { userActionCreators } from '../redux';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const MainNav = () => {
+  const { user, error, loading } = useTypedSelector((state) => state.loginUser);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(userActionCreators.getLoggedInUser() as any);
+  }, [dispatch]);
+
+  const logout = async () => {
+    alert('logout');
+    await fetch('/api/v1/users/logout', { method: 'POST' });
+    // redirect here too
+    navigate('/');
+  };
+  // const { user, error, loading } = useTypedSelector((state) => state.user);
+
   return (
     <Navbar className={styles.bgDark} variant='dark' expand='sm'>
       <Container>
@@ -10,20 +30,19 @@ const MainNav = () => {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-auto'>
             <Nav.Link href='#home'>Main Site</Nav.Link>
-            <Nav.Link as={Link} to={'/'}>All Players</Nav.Link>
+            <Nav.Link as={Link} to={'/'}>
+              All Players
+            </Nav.Link>
             <Nav.Link href='#link'>Add A Player</Nav.Link>
-            <Nav.Link as={Link} to={'/login'}>Login/Logout</Nav.Link>
-            <NavDropdown title='Dropdown' id='basic-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
+            {user !== '' ? (
+              <Nav.Link as={Link} to={'#'} onClick={logout}>
+                Logout, {user}
+              </Nav.Link>
+            ) : (
+              <Nav.Link as={Link} to={'/login'}>
+                Login
+              </Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

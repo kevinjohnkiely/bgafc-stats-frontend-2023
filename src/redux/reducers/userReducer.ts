@@ -5,13 +5,13 @@ import { UserAction } from './actions/user';
 interface CurrentUserState {
   loading: boolean;
   error: string | null;
-  data: User | {};
+  user: User | {};
 }
 
 const initState = {
   loading: false,
   error: null,
-  data: {},
+  user: {},
 };
 
 const reducer = (
@@ -20,11 +20,11 @@ const reducer = (
 ): CurrentUserState => {
   switch (action.type) {
     case ActionType.GET_LOGGED_IN_USER_INIT:
-      return { loading: true, error: null, data: {} };
+      return { loading: true, error: null, user: {} };
     case ActionType.GET_LOGGED_IN_USER_SUCCESS:
-      return { loading: false, error: null, data: action.payload };
+      return { loading: false, error: null, user: action.payload };
     case ActionType.GET_LOGGED_IN_USER_ERROR:
-      return { loading: false, error: action.payload, data: {} };
+      return { loading: false, error: action.payload, user: {} };
     default:
       return state;
   }
