@@ -8,17 +8,17 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const MainNav = () => {
-  const { user, error, loading } = useTypedSelector((state) => state.loginUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(userActionCreators.getLoggedInUser() as any);
-  }, [dispatch]);
+  }, [dispatch, navigate]);
+  const { user, error, loading } = useTypedSelector((state) => state.user);
+
+  console.log('username in main-nav is , ' + user);
 
   const logout = async () => {
     await fetch('/api/v1/users/logout', { method: 'POST' });
-    // redirect here too
-    navigate('/');
   };
 
   return (

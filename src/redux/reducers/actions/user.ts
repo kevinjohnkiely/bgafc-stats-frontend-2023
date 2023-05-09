@@ -7,7 +7,7 @@ interface GetLoggedInUserInitAction {
 
 interface GetLoggedInUserSuccessAction {
   type: ActionType.GET_LOGGED_IN_USER_SUCCESS;
-  payload: User;
+  payload: string;
 }
 
 interface GetLoggedInUserErrorAction {

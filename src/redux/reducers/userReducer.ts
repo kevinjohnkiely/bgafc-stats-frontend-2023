@@ -1,17 +1,16 @@
-import { User } from '../../models/user';
 import { ActionType } from '../actionTypes';
 import { UserAction } from './actions/user';
 
 interface CurrentUserState {
   loading: boolean;
   error: string | null;
-  user: User | {};
+  user: string | null;
 }
 
 const initState = {
   loading: false,
   error: null,
-  user: {},
+  user: '',
 };
 
 const reducer = (
@@ -20,11 +19,11 @@ const reducer = (
 ): CurrentUserState => {
   switch (action.type) {
     case ActionType.GET_LOGGED_IN_USER_INIT:
-      return { loading: true, error: null, user: {} };
+      return { loading: true, error: null, user: '' };
     case ActionType.GET_LOGGED_IN_USER_SUCCESS:
       return { loading: false, error: null, user: action.payload };
     case ActionType.GET_LOGGED_IN_USER_ERROR:
-      return { loading: false, error: action.payload, user: {} };
+      return { loading: false, error: action.payload, user: '' };
     default:
       return state;
   }

@@ -4,12 +4,12 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Loader from '../components/common/Loader';
 import Notification from '../components/common/Notification';
 import { loginActionCreators } from '../redux';
 import { useTypedSelector } from '../redux/redux-hooks/useTypedSelector';
 import styles from '../styles/Button.module.css';
-import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -21,10 +21,10 @@ const Login = () => {
 
   useEffect(() => {
     if (user !== '') {
-      // redirect here
       navigate('/');
     }
-  }, [navigate, user])
+    console.log('user in use effect in login component is ' + user);
+  }, [navigate, user]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -38,8 +38,6 @@ const Login = () => {
 
     const userInput = { username: username, password: password };
     dispatch(loginActionCreators.loginUser(userInput) as any);
-    console.log('user in handle submit is ' + user)
-    
   };
 
   return (
