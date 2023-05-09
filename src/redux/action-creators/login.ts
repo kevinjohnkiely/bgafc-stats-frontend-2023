@@ -29,8 +29,6 @@ export const loginUser = (loginCredentials: LoginCredentials) => {
     }
 
     const user = await response.json();
-    console.log('//////');
-    console.log(user);
 
     if (user.message) {
       dispatch({

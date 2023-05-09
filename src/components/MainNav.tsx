@@ -16,12 +16,10 @@ const MainNav = () => {
   }, [dispatch]);
 
   const logout = async () => {
-    alert('logout');
     await fetch('/api/v1/users/logout', { method: 'POST' });
     // redirect here too
     navigate('/');
   };
-  // const { user, error, loading } = useTypedSelector((state) => state.user);
 
   return (
     <Navbar className={styles.bgDark} variant='dark' expand='sm'>

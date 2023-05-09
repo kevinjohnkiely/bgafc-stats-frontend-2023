@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -19,6 +19,13 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  useEffect(() => {
+    if (user !== '') {
+      // redirect here
+      navigate('/');
+    }
+  }, [navigate, user])
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -31,11 +38,8 @@ const Login = () => {
 
     const userInput = { username: username, password: password };
     dispatch(loginActionCreators.loginUser(userInput) as any);
-    navigate("/login");
-    if (user) {
-      // redirect here
-      navigate('/login');
-    }
+    console.log('user in handle submit is ' + user)
+    
   };
 
   return (
