@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import { BiEdit } from 'react-icons/bi';
@@ -9,22 +9,41 @@ import { Link } from 'react-router-dom';
 import Loader from '../components/common/Loader';
 import Notification from '../components/common/Notification';
 import { Player as PlayerModel } from '../models/player';
-import { playersActionCreators } from '../redux';
+import { playersActionCreators, userActionCreators } from '../redux';
 import { useTypedSelector } from '../redux/redux-hooks/useTypedSelector';
 import styles from './../styles/PlayerList.module.css';
 
 const PlayerList = () => {
-  console.log('rendering');
+  const { user } = useTypedSelector((state) => state.user);
+  console.log('username in player list is: ' + user);
   const dispatch = useDispatch();
-  const { players, error, loading } = useTypedSelector((state) => state.players);
+  const { players, error, loading } = useTypedSelector(
+    (state) => state.players
+  );
 
   useEffect(() => {
-    console.log('use effect running');
     dispatch(playersActionCreators.getPlayers() as any);
+    dispatch(userActionCreators.getLoggedInUser() as any);
   }, [dispatch]);
+
+  const logout = async () => {
+    await fetch('/api/v1/users/logout', { method: 'POST' });
+    window.location.reload();
+  };
 
   return (
     <Container fluid className={styles.playerListLayout}>
+      {user ? (
+        <section>
+          <Button variant='danger' onClick={logout}>Logout</Button>{' '}
+          <Link to={'/addplayer'}>
+            <Button variant='success'>Add a Player</Button>
+          </Link>
+        </section>
+      ) : (
+        'no user'
+      )}
+
       <h3>All-Time Player Statistics 1984 – present</h3>
       {loading ? (
         <Loader />

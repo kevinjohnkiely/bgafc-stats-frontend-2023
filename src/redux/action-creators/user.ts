@@ -18,7 +18,7 @@ export const getLoggedInUser = () => {
     }
 
     const json = await data.json();
-    console.log('data returned in getlogged in user action creator' + json.data.user.username);
+    // console.log('data returned in getlogged in user action creator' + json.data.user.username);
     if (json.message) {
       dispatch({
         type: ActionType.GET_LOGGED_IN_USER_ERROR,
@@ -27,7 +27,7 @@ export const getLoggedInUser = () => {
     } else {
       dispatch({
         type: ActionType.GET_LOGGED_IN_USER_SUCCESS,
-        payload: json.data.user.username,
+        payload: json.data.user?.username,
       });
     }
   };

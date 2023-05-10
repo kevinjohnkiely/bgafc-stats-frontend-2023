@@ -20,7 +20,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    if (user !== '') {
+    if (user.length > 0) {
       navigate('/');
     }
     console.log('user in use effect in login component is ' + user);
@@ -49,7 +49,7 @@ const Login = () => {
           {error ? <Notification message={error} /> : null}
           <h3>User is : {user}</h3>
           <h3 style={{ textAlign: 'center', marginBottom: '2rem' }}>Login</h3>
-          <Card style={{ width: '50%', margin: 'auto', padding: '1rem' }}>
+          <Card style={{ width: '50%', margin: 'auto', padding: '1rem', backgroundColor: '#ffcb00' }}>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Form.Group className='mb-3' controlId='formUsername'>
                 <Form.Label>Username:</Form.Label>

@@ -1,46 +1,21 @@
-import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styles from './../styles/MainNav.module.css';
-import { useTypedSelector } from '../redux/redux-hooks/useTypedSelector';
-import { useEffect } from 'react';
-import { userActionCreators } from '../redux';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 const MainNav = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  useEffect(() => {
-    dispatch(userActionCreators.getLoggedInUser() as any);
-  }, [dispatch, navigate]);
-  const { user, error, loading } = useTypedSelector((state) => state.user);
-
-  console.log('username in main-nav is , ' + user);
-
-  const logout = async () => {
-    await fetch('/api/v1/users/logout', { method: 'POST' });
-  };
-
   return (
     <Navbar className={styles.bgDark} variant='dark' expand='sm'>
       <Container>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-auto'>
-            <Nav.Link href='#home'>Main Site</Nav.Link>
+            <Nav.Link href='#home'>News</Nav.Link>
             <Nav.Link as={Link} to={'/'}>
-              All Players
+              All-Time Player Stats
             </Nav.Link>
-            <Nav.Link href='#link'>Add A Player</Nav.Link>
-            {user !== '' ? (
-              <Nav.Link as={Link} to={'#'} onClick={logout}>
-                Logout, {user}
-              </Nav.Link>
-            ) : (
-              <Nav.Link as={Link} to={'/login'}>
-                Login
-              </Nav.Link>
-            )}
+            <Nav.Link as={Link} to={'/login'}>
+              Login
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
