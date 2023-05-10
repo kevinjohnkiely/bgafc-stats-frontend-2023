@@ -80,7 +80,7 @@ const PlayerSingle = () => {
                 </tr>
               </thead>
               <tbody>
-                {player?.seasons.map((season, index) => (
+                {player?.seasons?.map((season, index) => (
                   <tr key={index}>
                     <td>{season.season}</td>
                     <td>{season.team}</td>

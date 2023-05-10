@@ -66,6 +66,7 @@ export const createPlayer = (player: Player) => {
       dispatch({
         type: ActionType.CREATE_PLAYER_SUCCESS,
         payload: playerData.data.player
+        
       });
     }
   }
