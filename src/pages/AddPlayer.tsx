@@ -9,7 +9,7 @@ import { playerActionCreators } from '../redux';
 import { useNavigate } from 'react-router-dom';
 
 const AddPlayer = () => {
-  const { user, error, loading } = useTypedSelector((state) => state.loginUser);
+  const { user, error, loading } = useTypedSelector((state) => state.user);
   const { player } = useTypedSelector((state) => state.player);
   const [validated, setValidated] = useState(false);
   const [username, setUsername] = useState('');
@@ -18,23 +18,24 @@ const AddPlayer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (player) {
-        alert('afsdsa')
-      navigate('/');
-    }
-    console.log('player in use effect in login component is ' + player);
-  }, [navigate, player]);
+    // if (player) {
+    //     alert('afsdsa')
+    //   navigate('/');
+    // }
+    console.log('user in use effect in addplayer component is ' + user);
+  }, [navigate, user]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    // event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      console.log('form invalid')
     }
-
+    
     setValidated(true);
-
+    
     const userInput = { firstName: username, lastName: password };
     dispatch(playerActionCreators.createPlayer(userInput) as any);
     // navigate('/')
