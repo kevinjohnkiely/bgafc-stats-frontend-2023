@@ -38,7 +38,7 @@ const AddPlayer = () => {
     
     const userInput = { firstName: username, lastName: password };
     dispatch(playerActionCreators.createPlayer(userInput) as any);
-    // navigate('/')
+    navigate('/')
   };
 
   return (
