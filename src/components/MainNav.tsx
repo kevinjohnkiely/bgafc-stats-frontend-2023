@@ -12,7 +12,7 @@ const MainNav = () => {
             <Nav.Link href='#home'>Main Site</Nav.Link>
             <Nav.Link as={Link} to={'/'}>All Players</Nav.Link>
             <Nav.Link href='#link'>Add A Player</Nav.Link>
-            <Nav.Link href='#link'>Login/Logout</Nav.Link>
+            <Nav.Link as={Link} to={'/login'}>Login/Logout</Nav.Link>
             <NavDropdown title='Dropdown' id='basic-nav-dropdown'>
               <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
               <NavDropdown.Item href='#action/3.2'>

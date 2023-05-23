@@ -10,9 +10,10 @@ import PlayerSingle from './pages/PlayerSingle';
 import styles from './styles/App.module.css';
 
 import { User } from './models/user';
+import Login from './pages/Login';
 
 const App = () => {
-  const [user, setUser] = useState<User>([]);
+  const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   useEffect(() => {
@@ -48,6 +49,7 @@ const App = () => {
       <Container fluid className={styles.routerPanel}>
         <Routes>
           <Route path='/' element={<PlayerList />} />
+          <Route path='/login' element={<Login />} />
           <Route path='/players/:slug' element={<PlayerSingle />} />
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
