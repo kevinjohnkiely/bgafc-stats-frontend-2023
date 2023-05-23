@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Player as PlayerModel } from '../models/player';
+import { Player, Player as PlayerModel } from '../models/player';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import styles from './../styles/PlayerList.module.css';
@@ -9,30 +9,45 @@ import { Link } from 'react-router-dom';
 import { BiEdit } from 'react-icons/bi';
 import { TiDelete } from 'react-icons/ti';
 import { Row, Col } from 'react-bootstrap';
+import { User } from '../models/user';
 
-const PlayerList = () => {
-  const [players, setPlayers] = useState<PlayerModel[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+interface PlayerListProps {
+  players: Player[];
+  onDeletePlayerClicked: (slug: string) => void;
+  error: string;
+  loading: boolean;
+}
 
-  useEffect(() => {
-    const fetchPlayers = async () => {
-      setLoading(true);
-      const data = await fetch('/api/v1/players');
-      if (data.status === 500) {
-        setError('Server Error: Please try again soon.');
-        setLoading(false);
-      }
-      const json = await data.json();
-      if (json.message) {
-        setError(json.message);
-      } else {
-        setPlayers(json.data.players);
-      }
-      setLoading(false);
-    };
-    fetchPlayers();
-  }, []);
+const PlayerList = ({
+  players,
+  error,
+  loading,
+  onDeletePlayerClicked,
+}: PlayerListProps) => {
+  // const [players, setPlayers] = useState<PlayerModel[]>([]);
+  // const [loading, setLoading] = useState<boolean>(false);
+  // const [error, setError] = useState<string>('');
+
+  // useEffect(() => {
+  //   const fetchPlayers = async () => {
+  //     setLoading(true);
+  //     const data = await fetch('/api/v1/players');
+  //     if (data.status === 500) {
+  //       setError('Server Error: Please try again soon.');
+  //       setLoading(false);
+  //     }
+  //     const json = await data.json();
+  //     if (json.message) {
+  //       setError(json.message);
+  //     } else {
+  //       setPlayers(json.data.players);
+  //     }
+  //     setLoading(false);
+  //   };
+  //   fetchPlayers();
+  // }, []);
+
+  
 
   return (
     <Container fluid className={styles.playerListLayout}>
@@ -69,14 +84,21 @@ const PlayerList = () => {
                   <Row className='justify-content-between'>
                     <Col>
                       <Link to={`/players/${player.slug}`}>
-                        <strong>{player.lastName.toUpperCase()}</strong>,{' '}
+                        <strong>{player.lastName?.toUpperCase()}</strong>,{' '}
                         {player.firstName}
                       </Link>
                     </Col>
 
                     <Col lg={3}>
                       <BiEdit size={24} color='#339900' />{' '}
-                      <TiDelete size={24} color='red' />
+                      <TiDelete
+                        size={24}
+                        color='red'
+                        onClick={(e) => {
+                          onDeletePlayerClicked(player.slug);
+                          e.stopPropagation();
+                        }}
+                      />
                     </Col>
                   </Row>
                 </td>

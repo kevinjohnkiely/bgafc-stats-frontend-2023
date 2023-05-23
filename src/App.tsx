@@ -11,15 +11,21 @@ import styles from './styles/App.module.css';
 
 import { User } from './models/user';
 import Login from './pages/Login';
+import AddPlayerModal from './components/AddPlayerModal';
+import { Button } from 'react-bootstrap';
+import { Player } from './models/player';
 
 const App = () => {
   const [user, setUser] = useState<User>();
+  const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const [showAddPlayerModal, setShowAddPlayerModal] = useState(false);
+
   useEffect(() => {
-    const getLoggedInUser = async () => {
+    const fetchPlayers = async () => {
       setLoading(true);
-      const data = await fetch('/api/v1/users/getuser');
+      const data = await fetch('/api/v1/players');
       if (data.status === 500) {
         setError('Server Error: Please try again soon.');
         setLoading(false);
@@ -28,15 +34,35 @@ const App = () => {
       if (json.message) {
         setError(json.message);
       } else {
-        setUser(json.data.user);
+        setPlayers(json.data.players);
       }
       setLoading(false);
     };
-    getLoggedInUser();
+    fetchPlayers();
   }, []);
+
+  const deletePlayer = async (slug: string) => {
+    console.log(slug)
+    await fetch(`/api/v1/players/${slug}`, {
+      method: 'DELETE',
+    });
+    setPlayers(
+      players.filter((existingPlayer) => existingPlayer.slug !== slug)
+    );
+  };
 
   return (
     <Container className={styles.pageMaxWidth}>
+      <Button onClick={() => setShowAddPlayerModal(true)}>Add Player</Button>
+      {showAddPlayerModal && (
+        <AddPlayerModal
+          onPlayerSaved={(newPlayer) => {
+            setPlayers([...players, newPlayer]);
+            setShowAddPlayerModal(false);
+          }}
+          onDismiss={() => setShowAddPlayerModal(false)}
+        />
+      )}
       <header className={styles.pageMarginTop}>
         <Image
           src={header}
@@ -48,8 +74,27 @@ const App = () => {
       <MainNav />
       <Container fluid className={styles.routerPanel}>
         <Routes>
-          <Route path='/' element={<PlayerList />} />
-          <Route path='/login' element={<Login />} />
+          <Route
+            path='/'
+            element={
+              <PlayerList
+                players={players}
+                error={error}
+                loading={loading}
+                onDeletePlayerClicked={deletePlayer}
+              />
+            }
+          />
+          <Route
+            path='/login'
+            element={
+              <Login
+                onLoginSuccessful={(user) => {
+                  setUser(user);
+                }}
+              />
+            }
+          />
           <Route path='/players/:slug' element={<PlayerSingle />} />
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
