@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { Player } from '../models/player';
 import { useForm } from 'react-hook-form';
-import Notification from '../components/common/Notification';
+import Notification from './common/Notification';
 import Loader from './common/Loader';
 
-interface AddPlayerModalProps {
+interface AddEditPlayerModalProps {
+  playerToEdit?: Player;
   onDismiss: () => void;
   onPlayerSaved: (player: Player) => void;
 }
@@ -15,14 +16,23 @@ interface PlayerInput {
   lastName: string;
 }
 
-const AddPlayerModal = ({ onDismiss, onPlayerSaved }: AddPlayerModalProps) => {
+const AddEditPlayerModal = ({
+  playerToEdit,
+  onDismiss,
+  onPlayerSaved,
+}: AddEditPlayerModalProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<PlayerInput>();
+  } = useForm<PlayerInput>({
+    defaultValues: {
+      firstName: playerToEdit?.firstName || '',
+      lastName: playerToEdit?.lastName || '',
+    },
+  });
 
   const createPlayer = async (player: PlayerInput) => {
     setLoading(true);
@@ -34,7 +44,7 @@ const AddPlayerModal = ({ onDismiss, onPlayerSaved }: AddPlayerModalProps) => {
       },
       body: JSON.stringify(player),
     });
-    // return response.json();
+
     if (response.status === 500) {
       setError('Server Error! Please try again soon...');
       setLoading(false);
@@ -51,21 +61,52 @@ const AddPlayerModal = ({ onDismiss, onPlayerSaved }: AddPlayerModalProps) => {
     return playerRes.data.player;
   };
 
-  const onSubmitNewPlayer = async (input: PlayerInput) => {
-    const playerResponse = await createPlayer(input);
-    console.log(playerResponse);
+  const editPlayer = async (slug: string, player: PlayerInput) => {
+    setLoading(true);
+
+    const response = await fetch(`/api/v1/players/${slug}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(player),
+    });
+
+    if (response.status === 500) {
+      setError('Server Error! Please try again soon...');
+      setLoading(false);
+    }
+
+    const playerRes = await response.json();
+
+    if (playerRes.message) {
+      setError(playerRes.message);
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
+    return playerRes.data.player;
+  };
+
+  const onSubmitPlayer = async (input: PlayerInput) => {
+    let playerResponse: Player;
+    if (playerToEdit) {
+      playerResponse = await editPlayer(playerToEdit.slug, input);
+    } else {
+      playerResponse = await createPlayer(input);
+    }
     onPlayerSaved(playerResponse);
   };
 
   return (
     <Modal show onHide={onDismiss}>
       <Modal.Header closeButton>
-        <Modal.Title>Add Player</Modal.Title>
+        <Modal.Title>{playerToEdit ? "Edit Player" : "Add Player"}</Modal.Title>
       </Modal.Header>
       <div>{error && <Notification message={error} />}</div>
       <div>{isSubmitting && <Loader />}</div>
       <Modal.Body>
-        <Form id='addPlayerForm' onSubmit={handleSubmit(onSubmitNewPlayer)}>
+        <Form id='addEditPlayerForm' onSubmit={handleSubmit(onSubmitPlayer)}>
           <Form.Group className='mb-3'>
             <Form.Label>First Name</Form.Label>
             <Form.Control
@@ -93,7 +134,7 @@ const AddPlayerModal = ({ onDismiss, onPlayerSaved }: AddPlayerModalProps) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button type='submit' form='addPlayerForm' disabled={isSubmitting}>
+        <Button type='submit' form='addEditPlayerForm' disabled={isSubmitting}>
           Submit
         </Button>
       </Modal.Footer>
@@ -101,4 +142,4 @@ const AddPlayerModal = ({ onDismiss, onPlayerSaved }: AddPlayerModalProps) => {
   );
 };
 
-export default AddPlayerModal;
+export default AddEditPlayerModal;

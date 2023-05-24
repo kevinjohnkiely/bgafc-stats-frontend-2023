@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Player, Player as PlayerModel } from '../models/player';
+import { Player } from '../models/player';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import styles from './../styles/PlayerList.module.css';
@@ -8,11 +7,12 @@ import Notification from '../components/common/Notification';
 import { Link } from 'react-router-dom';
 import { BiEdit } from 'react-icons/bi';
 import { TiDelete } from 'react-icons/ti';
-import { Row, Col } from 'react-bootstrap';
-import { User } from '../models/user';
+import { Row, Col, Modal, Button } from 'react-bootstrap';
+import { useState } from 'react';
 
 interface PlayerListProps {
   players: Player[];
+  onPlayerClicked: (player: Player) => void;
   onDeletePlayerClicked: (slug: string) => void;
   error: string;
   loading: boolean;
@@ -23,31 +23,11 @@ const PlayerList = ({
   error,
   loading,
   onDeletePlayerClicked,
+  onPlayerClicked,
 }: PlayerListProps) => {
-  // const [players, setPlayers] = useState<PlayerModel[]>([]);
-  // const [loading, setLoading] = useState<boolean>(false);
-  // const [error, setError] = useState<string>('');
-
-  // useEffect(() => {
-  //   const fetchPlayers = async () => {
-  //     setLoading(true);
-  //     const data = await fetch('/api/v1/players');
-  //     if (data.status === 500) {
-  //       setError('Server Error: Please try again soon.');
-  //       setLoading(false);
-  //     }
-  //     const json = await data.json();
-  //     if (json.message) {
-  //       setError(json.message);
-  //     } else {
-  //       setPlayers(json.data.players);
-  //     }
-  //     setLoading(false);
-  //   };
-  //   fetchPlayers();
-  // }, []);
-
-  
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = (slug: string) => setShow(true);
 
   return (
     <Container fluid className={styles.playerListLayout}>
@@ -90,16 +70,42 @@ const PlayerList = ({
                     </Col>
 
                     <Col lg={3}>
-                      <BiEdit size={24} color='#339900' />{' '}
+                      <BiEdit
+                        size={24}
+                        color='#339900'
+                        onClick={() => onPlayerClicked(player)}
+                      />{' '}
                       <TiDelete
                         size={24}
                         color='red'
                         onClick={(e) => {
-                          onDeletePlayerClicked(player.slug);
+                          handleShow(player.slug);
                           e.stopPropagation();
                         }}
                       />
                     </Col>
+                    <Modal show={show} onHide={handleClose}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>Deleting Player</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        Are you sure you want to delete this player?
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button variant='secondary' onClick={handleClose}>
+                          No
+                        </Button>
+                        <Button
+                          variant='danger'
+                          onClick={(e) => {
+                            onDeletePlayerClicked(player.slug);
+                            handleClose();
+                          }}
+                        >
+                          Yes!
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
                   </Row>
                 </td>
                 <td>{player.aTeamApps}</td>

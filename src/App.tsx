@@ -11,7 +11,7 @@ import styles from './styles/App.module.css';
 
 import { User } from './models/user';
 import Login from './pages/Login';
-import AddPlayerModal from './components/AddPlayerModal';
+import AddPlayerModal from './components/AddEditPlayerModal';
 import { Button } from 'react-bootstrap';
 import { Player } from './models/player';
 
@@ -21,6 +21,7 @@ const App = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [showAddPlayerModal, setShowAddPlayerModal] = useState(false);
+  const [playerToEdit, setPlayerToEdit] = useState<Player | null>(null);
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -42,7 +43,6 @@ const App = () => {
   }, []);
 
   const deletePlayer = async (slug: string) => {
-    console.log(slug)
     await fetch(`/api/v1/players/${slug}`, {
       method: 'DELETE',
     });
@@ -61,6 +61,22 @@ const App = () => {
             setShowAddPlayerModal(false);
           }}
           onDismiss={() => setShowAddPlayerModal(false)}
+        />
+      )}
+      {playerToEdit && (
+        <AddPlayerModal
+          playerToEdit={playerToEdit}
+          onDismiss={() => setPlayerToEdit(null)}
+          onPlayerSaved={(updatedPlayer) => {
+            setPlayers(
+              players.map((existingPlayer) =>
+                existingPlayer.slug === updatedPlayer.slug
+                  ? updatedPlayer
+                  : existingPlayer
+              )
+            );
+            setPlayerToEdit(null);
+          }}
         />
       )}
       <header className={styles.pageMarginTop}>
@@ -82,6 +98,7 @@ const App = () => {
                 error={error}
                 loading={loading}
                 onDeletePlayerClicked={deletePlayer}
+                onPlayerClicked={setPlayerToEdit}
               />
             }
           />
