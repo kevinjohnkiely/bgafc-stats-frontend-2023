@@ -8,6 +8,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import PlayerList from './pages/PlayerList';
 import PlayerSingle from './pages/PlayerSingle';
 import styles from './styles/App.module.css';
+import { useNavigate } from 'react-router-dom';
 
 import { User } from './models/user';
 import Login from './pages/Login';
@@ -16,17 +17,20 @@ import { Button } from 'react-bootstrap';
 import { Player } from './models/player';
 
 const App = () => {
-  const [user, setUser] = useState<User>();
+  const [loggedInUser, setLoggedInUser] = useState<User|null>();
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [showAddPlayerModal, setShowAddPlayerModal] = useState(false);
   const [playerToEdit, setPlayerToEdit] = useState<Player | null>(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    // LOAD THE PLAYER DATA
     const fetchPlayers = async () => {
       setLoading(true);
-      const data = await fetch('/api/v1/players');
+      const data = await fetch('/api/v1/players', { method: 'GET' });
       if (data.status === 500) {
         setError('Server Error: Please try again soon.');
         setLoading(false);
@@ -40,6 +44,15 @@ const App = () => {
       setLoading(false);
     };
     fetchPlayers();
+
+    // LOAD THE CURRENT USER, IF ANY
+    const getLoggedInUser = async () => {
+      const response = await fetch('/api/v1/users/getuser', { method: 'GET' });
+      const user = await response.json();
+      console.log(user.data.user);
+      setLoggedInUser(user.data.user);
+    };
+    getLoggedInUser();
   }, []);
 
   const deletePlayer = async (slug: string) => {
@@ -51,9 +64,25 @@ const App = () => {
     );
   };
 
+  const logoutUser = async () => {
+    await fetch('/api/v1/users/logout', { method: 'POST' });
+    setLoggedInUser(null)
+    navigate('/');
+  };
+
   return (
     <Container className={styles.pageMaxWidth}>
-      <Button onClick={() => setShowAddPlayerModal(true)}>Add Player</Button>
+      {loggedInUser?.username && (
+        <>
+          <Button onClick={() => setShowAddPlayerModal(true)}>
+            Add Player
+          </Button>
+          <Button variant='danger' onClick={logoutUser}>
+            Logout
+          </Button>
+        </>
+      )}
+
       {showAddPlayerModal && (
         <AddPlayerModal
           onPlayerSaved={(newPlayer) => {
@@ -107,7 +136,7 @@ const App = () => {
             element={
               <Login
                 onLoginSuccessful={(user) => {
-                  setUser(user);
+                  // setUser(user);
                 }}
               />
             }
