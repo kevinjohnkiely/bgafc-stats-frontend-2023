@@ -9,12 +9,14 @@ interface MainNavProps {
   loggedInUser: User | null;
   onLoginClicked: () => void;
   onLoggedOut: () => void;
+  onShowAddPlayerModal: () => void;
 }
 
 const MainNav = ({
   loggedInUser,
   onLoginClicked,
   onLoggedOut,
+  onShowAddPlayerModal
 }: MainNavProps) => {
   return (
     <Navbar className={styles.bgDark} variant='dark' expand='sm'>
@@ -23,6 +25,7 @@ const MainNav = ({
         <Navbar.Collapse id='basic-navbar-nav'>
           {loggedInUser ? (
             <NavBarLoggedInView
+              onShowAddPlayerModal={onShowAddPlayerModal}
               user={loggedInUser}
               onLogoutSuccess={onLoggedOut}
             />

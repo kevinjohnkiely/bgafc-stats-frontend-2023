@@ -40,17 +40,14 @@ const LoginModal = ({ onDismiss, onLoginSuccess }: LoginModalProps) => {
     }
 
     const user = await response.json();
-    console.log(user);
-    // NEED TO MAYBE RETURN USER!!!!!
-    // onLoginSuccess(user)
 
     if (user.message) {
       setError(user.message);
       setLoading(false);
     } else {
       setLoading(false);
-      console.log('success');
-      onLoginSuccess(user)
+      console.log(user);
+      onLoginSuccess(user.data.user)
     }
   };
 

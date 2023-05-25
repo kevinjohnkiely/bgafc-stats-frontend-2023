@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import header from './assets/images/header.jpg';
 import MainNav from './components/MainNav';
 import NotFoundPage from './pages/NotFoundPage';
 import PlayerList from './pages/PlayerList';
 import PlayerSingle from './pages/PlayerSingle';
 import styles from './styles/App.module.css';
-import { useNavigate } from 'react-router-dom';
 
+import { Button } from 'react-bootstrap';
+import AddPlayerModal from './components/AddEditPlayerModal';
+import LoginModal from './components/LoginModal';
+import { Player } from './models/player';
 import { User } from './models/user';
 import Login from './pages/Login';
-import AddPlayerModal from './components/AddEditPlayerModal';
-import { Button } from 'react-bootstrap';
-import { Player } from './models/player';
-import LoginModal from './components/LoginModal';
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
@@ -74,7 +73,7 @@ const App = () => {
 
   return (
     <Container className={styles.pageMaxWidth}>
-      {loggedInUser?.username && (
+      {/* {loggedInUser?.username && (
         <>
           <Button onClick={() => setShowAddPlayerModal(true)}>
             Add Player
@@ -83,7 +82,7 @@ const App = () => {
             Logout
           </Button>
         </>
-      )}
+      )} */}
 
       {showAddPlayerModal && (
         <AddPlayerModal
@@ -133,6 +132,7 @@ const App = () => {
         loggedInUser={loggedInUser}
         onLoginClicked={() => setShowLoginModal(true)}
         onLoggedOut={() => setLoggedInUser(null)}
+        onShowAddPlayerModal={() => setShowAddPlayerModal(true)}
       />
       <Container fluid className={styles.routerPanel}>
         <Routes>

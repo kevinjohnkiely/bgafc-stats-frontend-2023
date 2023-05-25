@@ -5,11 +5,13 @@ import { Button, Navbar } from 'react-bootstrap';
 interface NavBarLoggedInViewProps {
   user: User;
   onLogoutSuccess: () => void;
+  onShowAddPlayerModal: () => void;
 }
 
 const NavBarLoggedInView = ({
   user,
   onLogoutSuccess,
+  onShowAddPlayerModal
 }: NavBarLoggedInViewProps) => {
   const logoutUser = async () => {
     await fetch('/api/v1/users/logout', { method: 'POST' });
@@ -23,6 +25,7 @@ const NavBarLoggedInView = ({
       <Button onClick={logoutUser} variant='danger'>
         Logout
       </Button>
+      <Button onClick={onShowAddPlayerModal}>Add Player</Button>
     </>
   );
 };
