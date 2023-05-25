@@ -15,14 +15,16 @@ import Login from './pages/Login';
 import AddPlayerModal from './components/AddEditPlayerModal';
 import { Button } from 'react-bootstrap';
 import { Player } from './models/player';
+import LoginModal from './components/LoginModal';
 
 const App = () => {
-  const [loggedInUser, setLoggedInUser] = useState<User|null>();
+  const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [showAddPlayerModal, setShowAddPlayerModal] = useState(false);
   const [playerToEdit, setPlayerToEdit] = useState<Player | null>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -66,7 +68,7 @@ const App = () => {
 
   const logoutUser = async () => {
     await fetch('/api/v1/users/logout', { method: 'POST' });
-    setLoggedInUser(null)
+    setLoggedInUser(null);
     navigate('/');
   };
 
@@ -108,6 +110,17 @@ const App = () => {
           }}
         />
       )}
+
+      {showLoginModal && (
+        <LoginModal
+          onDismiss={() => setShowLoginModal(false)}
+          onLoginSuccess={(user) => {
+            setLoggedInUser(user);
+            setShowLoginModal(false);
+          }}
+        />
+      )}
+
       <header className={styles.pageMarginTop}>
         <Image
           src={header}
@@ -116,7 +129,11 @@ const App = () => {
           className={styles.headerImageFullWidth}
         />
       </header>
-      <MainNav />
+      <MainNav
+        loggedInUser={loggedInUser}
+        onLoginClicked={() => setShowLoginModal(true)}
+        onLoggedOut={() => setLoggedInUser(null)}
+      />
       <Container fluid className={styles.routerPanel}>
         <Routes>
           <Route
@@ -128,6 +145,7 @@ const App = () => {
                 loading={loading}
                 onDeletePlayerClicked={deletePlayer}
                 onPlayerClicked={setPlayerToEdit}
+                loggedInUser={loggedInUser}
               />
             }
           />

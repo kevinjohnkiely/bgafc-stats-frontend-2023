@@ -1,15 +1,31 @@
 import React, { useState } from 'react';
+import { User } from '../models/user';
+import { useForm } from 'react-hook-form';
+import { Button, Form, Modal } from 'react-bootstrap';
+import Loader from './common/Loader';
+import Notification from './common/Notification';
 
 interface LoginCredentials {
   username: string;
   password: string;
 }
 
-const LoginModal = () => {
+interface LoginModalProps {
+  onDismiss: () => void;
+  onLoginSuccess: (user: User) => void;
+}
+
+const LoginModal = ({ onDismiss, onLoginSuccess }: LoginModalProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const login = async (creds: LoginCredentials) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginCredentials>();
+
+  const onSubmitLogin = async (creds: LoginCredentials) => {
     const response = await fetch('/api/v1/users/login', {
       method: 'POST',
       headers: {
@@ -24,8 +40,9 @@ const LoginModal = () => {
     }
 
     const user = await response.json();
-    console.log(user)
+    console.log(user);
     // NEED TO MAYBE RETURN USER!!!!!
+    // onLoginSuccess(user)
 
     if (user.message) {
       setError(user.message);
@@ -33,10 +50,50 @@ const LoginModal = () => {
     } else {
       setLoading(false);
       console.log('success');
+      onLoginSuccess(user)
     }
   };
 
-  return <div>LoginModal</div>;
+  return (
+    <Modal show onHide={onDismiss}>
+      <Modal.Header closeButton>
+        <Modal.Title>Log In</Modal.Title>
+      </Modal.Header>
+      <div>{error && <Notification message={error} />}</div>
+      <div>{isSubmitting && <Loader />}</div>
+      <Modal.Body>
+        <Form onSubmit={handleSubmit(onSubmitLogin)}>
+          <Form.Group className='mb-3'>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Username'
+              isInvalid={!!errors.username}
+              {...register('username', { required: 'Required' })}
+            />
+            <Form.Control.Feedback type='invalid'>
+              {errors.username?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type='password'
+              placeholder='Password'
+              isInvalid={!!errors.password}
+              {...register('password', { required: 'Required' })}
+            />
+            <Form.Control.Feedback type='invalid'>
+              {errors.password?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Button type='submit' disabled={isSubmitting}>
+            Log In
+          </Button>
+        </Form>
+      </Modal.Body>
+    </Modal>
+  );
 };
 
 export default LoginModal;

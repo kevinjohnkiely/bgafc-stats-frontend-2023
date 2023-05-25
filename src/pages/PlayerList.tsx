@@ -9,6 +9,7 @@ import { BiEdit } from 'react-icons/bi';
 import { TiDelete } from 'react-icons/ti';
 import { Row, Col, Modal, Button } from 'react-bootstrap';
 import { useState } from 'react';
+import { User } from '../models/user';
 
 interface PlayerListProps {
   players: Player[];
@@ -16,6 +17,7 @@ interface PlayerListProps {
   onDeletePlayerClicked: (slug: string) => void;
   error: string;
   loading: boolean;
+  loggedInUser: User | null;
 }
 
 const PlayerList = ({
@@ -24,6 +26,7 @@ const PlayerList = ({
   loading,
   onDeletePlayerClicked,
   onPlayerClicked,
+  loggedInUser,
 }: PlayerListProps) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -68,22 +71,24 @@ const PlayerList = ({
                         {player.firstName}
                       </Link>
                     </Col>
+                    {loggedInUser && (
+                      <Col lg={3}>
+                        <BiEdit
+                          size={24}
+                          color='#339900'
+                          onClick={() => onPlayerClicked(player)}
+                        />{' '}
+                        <TiDelete
+                          size={24}
+                          color='red'
+                          onClick={(e) => {
+                            handleShow(player.slug);
+                            e.stopPropagation();
+                          }}
+                        />
+                      </Col>
+                    )}
 
-                    <Col lg={3}>
-                      <BiEdit
-                        size={24}
-                        color='#339900'
-                        onClick={() => onPlayerClicked(player)}
-                      />{' '}
-                      <TiDelete
-                        size={24}
-                        color='red'
-                        onClick={(e) => {
-                          handleShow(player.slug);
-                          e.stopPropagation();
-                        }}
-                      />
-                    </Col>
                     <Modal show={show} onHide={handleClose}>
                       <Modal.Header closeButton>
                         <Modal.Title>Deleting Player</Modal.Title>
