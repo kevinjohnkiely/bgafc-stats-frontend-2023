@@ -30,7 +30,8 @@ const PlayerList = ({
 }: PlayerListProps) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = (slug: string) => setShow(true);
+  const handleShow = () => setShow(true);
+  const [playerToDelete, setPlayerToDelete] = useState('');
 
   return (
     <Container fluid className={styles.playerListLayout}>
@@ -82,35 +83,13 @@ const PlayerList = ({
                           size={24}
                           color='red'
                           onClick={(e) => {
-                            handleShow(player.slug);
+                            handleShow();
+                            setPlayerToDelete(player.slug)
                             e.stopPropagation();
                           }}
                         />
                       </Col>
                     )}
-
-                    <Modal show={show} onHide={handleClose}>
-                      <Modal.Header closeButton>
-                        <Modal.Title>Deleting Player</Modal.Title>
-                      </Modal.Header>
-                      <Modal.Body>
-                        Are you sure you want to delete this player?
-                      </Modal.Body>
-                      <Modal.Footer>
-                        <Button variant='secondary' onClick={handleClose}>
-                          No
-                        </Button>
-                        <Button
-                          variant='danger'
-                          onClick={(e) => {
-                            onDeletePlayerClicked(player.slug);
-                            handleClose();
-                          }}
-                        >
-                          Yes!
-                        </Button>
-                      </Modal.Footer>
-                    </Modal>
                   </Row>
                 </td>
                 <td>{player.aTeamApps}</td>
@@ -128,6 +107,27 @@ const PlayerList = ({
           </tbody>
         </Table>
       )}
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Deleting Player</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this?</Modal.Body>
+        <Modal.Footer>
+          <Button variant='secondary' onClick={handleClose}>
+            No
+          </Button>
+          <Button
+            variant='danger'
+            onClick={(e) => {
+              // onDeletePlayerClicked(player.slug);
+              onDeletePlayerClicked(playerToDelete);
+              handleClose();
+            }}
+          >
+            Yes!
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };

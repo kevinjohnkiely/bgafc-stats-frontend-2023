@@ -6,7 +6,7 @@ import blank from '../assets/images/blank.jpg';
 import styles from './../styles/PlayerSingle.module.css';
 
 import { Player as PlayerModel } from '../models/player';
-import { Container, Row, Col, Image, Table } from 'react-bootstrap';
+import { Container, Row, Col, Image, Table, Button } from 'react-bootstrap';
 
 // interface PlayerProps {
 // player: PlayerModel;
@@ -149,6 +149,11 @@ const PlayerSingle = () => {
                 ))}
               </tbody>
             </Table>
+          </Row>
+          <Row>
+            <Col>
+              <Button variant='primary'>Add Season</Button>
+            </Col>
           </Row>
         </>
       )}

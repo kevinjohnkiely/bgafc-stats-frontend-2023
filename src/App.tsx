@@ -27,9 +27,12 @@ const App = () => {
 
   const navigate = useNavigate();
 
+  console.log('Parent Component running');
+
   useEffect(() => {
     // LOAD THE PLAYER DATA
     const fetchPlayers = async () => {
+      console.log('fetch players running');
       setLoading(true);
       const data = await fetch('/api/v1/players', { method: 'GET' });
       if (data.status === 500) {
