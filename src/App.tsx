@@ -143,7 +143,7 @@ const App = () => {
               />
             }
           />
-          <Route path='/players/:slug' element={<PlayerSingle />} />
+          <Route path='/players/:slug' element={<PlayerSingle loggedInUser={loggedInUser} />} />
           <Route path='/addseason/:playerId/:slug' element={<AddSeason />} />
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>

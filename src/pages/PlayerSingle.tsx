@@ -8,13 +8,13 @@ import styles from './../styles/PlayerSingle.module.css';
 import { Player as PlayerModel } from '../models/player';
 import { Container, Row, Col, Image, Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { User } from '../models/user';
 
-// interface PlayerProps {
-// player: PlayerModel;
-// playerSlug: string
-// }
+interface PlayerSingleProps {
+  loggedInUser: User | null;
+}
 
-const PlayerSingle = () => {
+const PlayerSingle = ({ loggedInUser }: PlayerSingleProps) => {
   const [player, setPlayer] = useState<PlayerModel>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -110,7 +110,7 @@ const PlayerSingle = () => {
               </thead>
               <tbody>
                 {player?.seasons.map((season) => (
-                  <tr>
+                  <tr key={season._id}>
                     <td>{season.season}</td>
                     <td>{season.team}</td>
                     <td>{season.division}</td>
@@ -153,8 +153,11 @@ const PlayerSingle = () => {
           </Row>
           <Row>
             <Col>
-            <Link to={`/addseason/${player?._id}/${player?.slug}`}><Button variant='primary'>Add Season</Button></Link>
-              
+              {loggedInUser && (
+                <Link to={`/addseason/${player?._id}/${player?.slug}`}>
+                  <Button variant='primary'>Add Season</Button>
+                </Link>
+              )}
             </Col>
           </Row>
         </>
