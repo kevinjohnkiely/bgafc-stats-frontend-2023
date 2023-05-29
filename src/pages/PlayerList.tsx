@@ -13,7 +13,7 @@ import { User } from '../models/user';
 
 interface PlayerListProps {
   players: Player[];
-  onPlayerClicked: (player: Player) => void;
+  onPlayerEditClicked: (player: Player) => void;
   onDeletePlayerClicked: (slug: string) => void;
   error: string;
   loading: boolean;
@@ -25,7 +25,7 @@ const PlayerList = ({
   error,
   loading,
   onDeletePlayerClicked,
-  onPlayerClicked,
+  onPlayerEditClicked,
   loggedInUser,
 }: PlayerListProps) => {
   const [show, setShow] = useState(false);
@@ -77,7 +77,7 @@ const PlayerList = ({
                         <BiEdit
                           size={24}
                           color='#339900'
-                          onClick={() => onPlayerClicked(player)}
+                          onClick={() => onPlayerEditClicked(player)}
                         />{' '}
                         <TiDelete
                           size={24}

@@ -13,7 +13,8 @@ import AddPlayerModal from './components/AddEditPlayerModal';
 import LoginModal from './components/LoginModal';
 import { Player } from './models/player';
 import { User } from './models/user';
-import AddSeason from './components/AddSeason';
+import AddEditSeason from './components/AddEditSeason';
+import { Season } from './models/season';
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
@@ -22,6 +23,7 @@ const App = () => {
   const [error, setError] = useState<string>('');
   const [showAddPlayerModal, setShowAddPlayerModal] = useState(false);
   const [playerToEdit, setPlayerToEdit] = useState<Player | null>(null);
+  const [seasonToEdit, setSeasonToEdit] = useState<Season | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   console.log('Parent Component running');
@@ -67,17 +69,6 @@ const App = () => {
 
   return (
     <Container className={styles.pageMaxWidth}>
-      {/* {loggedInUser?.username && (
-        <>
-          <Button onClick={() => setShowAddPlayerModal(true)}>
-            Add Player
-          </Button>
-          <Button variant='danger' onClick={logoutUser}>
-            Logout
-          </Button>
-        </>
-      )} */}
-
       {showAddPlayerModal && (
         <AddPlayerModal
           onPlayerSaved={(newPlayer) => {
@@ -138,13 +129,25 @@ const App = () => {
                 error={error}
                 loading={loading}
                 onDeletePlayerClicked={deletePlayer}
-                onPlayerClicked={setPlayerToEdit}
+                onPlayerEditClicked={setPlayerToEdit}
                 loggedInUser={loggedInUser}
               />
             }
           />
-          <Route path='/players/:slug' element={<PlayerSingle loggedInUser={loggedInUser} />} />
-          <Route path='/addseason/:playerId/:slug' element={<AddSeason />} />
+          <Route
+            path='/players/:slug'
+            element={
+              <PlayerSingle
+                loggedInUser={loggedInUser}
+                onSeasonEditClicked={setSeasonToEdit}
+                onClearEditSeason={() => setSeasonToEdit(null)}
+              />
+            }
+          />
+          <Route
+            path='/addseason/:playerId/:slug'
+            element={<AddEditSeason seasonToEdit={seasonToEdit} />}
+          />
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
       </Container>

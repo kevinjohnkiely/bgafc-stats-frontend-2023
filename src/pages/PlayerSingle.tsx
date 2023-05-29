@@ -4,20 +4,31 @@ import Loader from '../components/common/Loader';
 import Notification from '../components/common/Notification';
 import blank from '../assets/images/blank.jpg';
 import styles from './../styles/PlayerSingle.module.css';
+import { useNavigate } from 'react-router-dom';
 
 import { Player as PlayerModel } from '../models/player';
 import { Container, Row, Col, Image, Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { User } from '../models/user';
+import { BiEdit } from 'react-icons/bi';
+import { TiDelete } from 'react-icons/ti';
+import { Season } from '../models/season';
 
 interface PlayerSingleProps {
   loggedInUser: User | null;
+  onSeasonEditClicked: (season: Season) => void;
+  onClearEditSeason: () => void;
 }
 
-const PlayerSingle = ({ loggedInUser }: PlayerSingleProps) => {
+const PlayerSingle = ({
+  loggedInUser,
+  onSeasonEditClicked,
+  onClearEditSeason
+}: PlayerSingleProps) => {
   const [player, setPlayer] = useState<PlayerModel>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const navigate = useNavigate();
 
   const { slug } = useParams();
 
@@ -111,7 +122,32 @@ const PlayerSingle = ({ loggedInUser }: PlayerSingleProps) => {
               <tbody>
                 {player?.seasons.map((season) => (
                   <tr key={season._id}>
-                    <td>{season.season}</td>
+                    <td>
+                      {season.season}{' '}
+                      {loggedInUser && (
+                        <>
+                          <BiEdit
+                            size={24}
+                            color='#339900'
+                            onClick={() => {
+                              onSeasonEditClicked(season);
+                              navigate(
+                                `/addseason/${player?._id}/${player?.slug}`
+                              );
+                            }}
+                          />{' '}
+                          <TiDelete
+                            size={24}
+                            color='red'
+                            onClick={(e) => {
+                              // handleShow();
+                              // setPlayerToDelete(player.slug)
+                              // e.stopPropagation();
+                            }}
+                          />
+                        </>
+                      )}
+                    </td>
                     <td>{season.team}</td>
                     <td>{season.division}</td>
                     <td>
@@ -155,7 +191,7 @@ const PlayerSingle = ({ loggedInUser }: PlayerSingleProps) => {
             <Col>
               {loggedInUser && (
                 <Link to={`/addseason/${player?._id}/${player?.slug}`}>
-                  <Button variant='primary'>Add Season</Button>
+                  <Button variant='primary' onClick={onClearEditSeason}>Add Season</Button>
                 </Link>
               )}
             </Col>
