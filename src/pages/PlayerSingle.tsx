@@ -7,6 +7,7 @@ import styles from './../styles/PlayerSingle.module.css';
 
 import { Player as PlayerModel } from '../models/player';
 import { Container, Row, Col, Image, Table, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 // interface PlayerProps {
 // player: PlayerModel;
@@ -152,7 +153,8 @@ const PlayerSingle = () => {
           </Row>
           <Row>
             <Col>
-              <Button variant='primary'>Add Season</Button>
+            <Link to={`/addseason/${player?._id}/${player?.slug}`}><Button variant='primary'>Add Season</Button></Link>
+              
             </Col>
           </Row>
         </>

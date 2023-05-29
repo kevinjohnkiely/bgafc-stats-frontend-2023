@@ -1,6 +1,7 @@
 import React from 'react';
 import { User } from '../models/user';
-import { Button, Navbar } from 'react-bootstrap';
+import { Button, Nav, Navbar } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 interface NavBarLoggedInViewProps {
   user: User;

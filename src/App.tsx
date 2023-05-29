@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import header from './assets/images/header.jpg';
 import MainNav from './components/MainNav';
 import NotFoundPage from './pages/NotFoundPage';
@@ -9,12 +9,11 @@ import PlayerList from './pages/PlayerList';
 import PlayerSingle from './pages/PlayerSingle';
 import styles from './styles/App.module.css';
 
-import { Button } from 'react-bootstrap';
 import AddPlayerModal from './components/AddEditPlayerModal';
 import LoginModal from './components/LoginModal';
 import { Player } from './models/player';
 import { User } from './models/user';
-import Login from './pages/Login';
+import AddSeason from './components/AddSeason';
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
@@ -24,8 +23,6 @@ const App = () => {
   const [showAddPlayerModal, setShowAddPlayerModal] = useState(false);
   const [playerToEdit, setPlayerToEdit] = useState<Player | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
-
-  const navigate = useNavigate();
 
   console.log('Parent Component running');
 
@@ -66,12 +63,6 @@ const App = () => {
     setPlayers(
       players.filter((existingPlayer) => existingPlayer.slug !== slug)
     );
-  };
-
-  const logoutUser = async () => {
-    await fetch('/api/v1/users/logout', { method: 'POST' });
-    setLoggedInUser(null);
-    navigate('/');
   };
 
   return (
@@ -152,17 +143,8 @@ const App = () => {
               />
             }
           />
-          <Route
-            path='/login'
-            element={
-              <Login
-                onLoginSuccessful={(user) => {
-                  // setUser(user);
-                }}
-              />
-            }
-          />
           <Route path='/players/:slug' element={<PlayerSingle />} />
+          <Route path='/addseason/:playerId/:slug' element={<AddSeason />} />
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
       </Container>
