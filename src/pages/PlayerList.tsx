@@ -119,7 +119,6 @@ const PlayerList = ({
           <Button
             variant='danger'
             onClick={(e) => {
-              // onDeletePlayerClicked(player.slug);
               onDeletePlayerClicked(playerToDelete);
               handleClose();
             }}

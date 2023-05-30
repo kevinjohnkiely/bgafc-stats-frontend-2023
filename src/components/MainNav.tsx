@@ -16,13 +16,16 @@ const MainNav = ({
   loggedInUser,
   onLoginClicked,
   onLoggedOut,
-  onShowAddPlayerModal
+  onShowAddPlayerModal,
 }: MainNavProps) => {
   return (
     <Navbar className={styles.bgDark} variant='dark' expand='sm'>
       <Container>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav.Link as={Link} to={'/'}>
+            All Players
+          </Nav.Link>
           {loggedInUser ? (
             <NavBarLoggedInView
               onShowAddPlayerModal={onShowAddPlayerModal}

@@ -7,7 +7,15 @@ import styles from './../styles/PlayerSingle.module.css';
 import { useNavigate } from 'react-router-dom';
 
 import { Player as PlayerModel } from '../models/player';
-import { Container, Row, Col, Image, Table, Button } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Image,
+  Table,
+  Button,
+  Modal,
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { User } from '../models/user';
 import { BiEdit } from 'react-icons/bi';
@@ -23,11 +31,15 @@ interface PlayerSingleProps {
 const PlayerSingle = ({
   loggedInUser,
   onSeasonEditClicked,
-  onClearEditSeason
+  onClearEditSeason,
 }: PlayerSingleProps) => {
   const [player, setPlayer] = useState<PlayerModel>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [seasonToDelete, setSeasonToDelete] = useState('');
   const navigate = useNavigate();
 
   const { slug } = useParams();
@@ -51,12 +63,17 @@ const PlayerSingle = ({
 
       // return json;
     };
-    // fetchPlayer();
-    fetchPlayer().catch((e) => {
-      setLoading(false);
-      console.log(e.message);
-    });
+    fetchPlayer();
   }, [slug]);
+
+  const deleteSeason = async (seasonId: string) => {
+    await fetch(`/api/v1/seasons/${seasonId}`, {
+      method: 'DELETE',
+    });
+    console.log(seasonId);
+    // navigate(`/players/${slug}`);
+    navigate(0);
+  };
 
   return (
     <Container fluid style={{ padding: '0 5rem 0 5rem' }}>
@@ -139,10 +156,9 @@ const PlayerSingle = ({
                           <TiDelete
                             size={24}
                             color='red'
-                            onClick={(e) => {
-                              // handleShow();
-                              // setPlayerToDelete(player.slug)
-                              // e.stopPropagation();
+                            onClick={() => {
+                              handleShow();
+                              setSeasonToDelete(season._id);
                             }}
                           />
                         </>
@@ -191,13 +207,38 @@ const PlayerSingle = ({
             <Col>
               {loggedInUser && (
                 <Link to={`/addseason/${player?._id}/${player?.slug}`}>
-                  <Button variant='primary' onClick={onClearEditSeason}>Add Season</Button>
+                  <Button variant='primary' onClick={onClearEditSeason}>
+                    Add Season
+                  </Button>
                 </Link>
               )}
             </Col>
           </Row>
         </>
       )}
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Deleting Season</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this season data?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='secondary' onClick={handleClose}>
+            No
+          </Button>
+          <Button
+            variant='danger'
+            onClick={(e) => {
+              // onDeletePlayerClicked(player.slug);
+              deleteSeason(seasonToDelete);
+              handleClose();
+            }}
+          >
+            Yes!
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
