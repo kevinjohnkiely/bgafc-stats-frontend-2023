@@ -101,10 +101,33 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
     }
   };
 
+  // MOVE THIS TO OTHER FOLDER LATER
+  const deslugify = (slug: string | undefined) => {
+    const slugArr = slug?.split('-') || [];
+    let resArr = [];
+
+    for (let x = 0; x < slugArr?.length; x++) {
+      const fName1 = slug?.split('-')[x].charAt(0).toUpperCase();
+      const fName2 = slug?.split('-')[x].slice(1);
+      resArr.push(`${fName1}${fName2}`)
+    }
+
+    // const fName1 = slug?.split('-')[0].charAt(0).toUpperCase();
+    // const fName2 = slug?.split('-')[0].slice(1);
+    // const lName1 = slug?.split('-')[1].charAt(0).toUpperCase();
+    // const lName2 = slug?.split('-')[1].slice(1);
+
+    // return `${fName1}${fName2} ${lName1}${lName2}`;
+    console.log(resArr.join(" "))
+    return resArr.join(" ")
+  };
+
   return (
     <>
       <h2 style={{ textAlign: 'center' }}>
-        {seasonToEdit ? 'Edit Season' : 'Add Season'}
+        {seasonToEdit
+          ? `Edit Season: ${deslugify(slug)}`
+          : `Add Season: ${deslugify(slug)}`}
       </h2>
       <hr
         style={{
@@ -132,15 +155,15 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
           </Form.Group>
           <Form.Group className='mb-3'>
             <Form.Label>Team</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Team'
+            <Form.Select
               isInvalid={!!errors.team}
+              defaultValue='A'
               {...register('team', { required: 'Required' })}
-            />
-            <Form.Control.Feedback type='invalid'>
-              {errors.team?.message}
-            </Form.Control.Feedback>
+            >
+              <option>Choose A or B team</option>
+              <option value='A'>A</option>
+              <option value='B'>B</option>
+            </Form.Select>
           </Form.Group>
           <Form.Group className='mb-3'>
             <Form.Label>Division</Form.Label>

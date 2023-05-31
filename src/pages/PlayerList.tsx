@@ -67,7 +67,7 @@ const PlayerList = ({
           </thead>
           <tbody>
             {players.map((player) => (
-              <tr>
+              <tr key={player._id}>
                 <td style={{ textAlign: 'left' }}>
                   <Row className='justify-content-between'>
                     <Col>

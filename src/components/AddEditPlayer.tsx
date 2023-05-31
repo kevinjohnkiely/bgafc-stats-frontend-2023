@@ -98,9 +98,20 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
 
   return (
     <>
-      <h2 style={{ textAlign: 'center'}}>{playerToEdit ? 'Edit Player' : 'Add Player'}</h2>
-      <hr style={{ width: '20%', margin: 'auto', marginTop: '2rem', border: 'solid 3px #ffcb00'}} />
-      <Container style={{ marginTop: '2rem'}}>
+      <h2 style={{ textAlign: 'center' }}>
+        {playerToEdit
+          ? `Update Player: ${playerToEdit.firstName} ${playerToEdit.lastName}`
+          : 'Add Player'}
+      </h2>
+      <hr
+        style={{
+          width: '20%',
+          margin: 'auto',
+          marginTop: '2rem',
+          border: 'solid 3px #ffcb00',
+        }}
+      />
+      <Container style={{ marginTop: '2rem' }}>
         <Form onSubmit={handleSubmit(onSubmitPlayer)}>
           <Row>
             <Col md={6} sm={12}>
