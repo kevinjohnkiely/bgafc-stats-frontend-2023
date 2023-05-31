@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Button, Form, Modal } from 'react-bootstrap';
 import Loader from './common/Loader';
 import Notification from './common/Notification';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginCredentials {
   username: string;
@@ -18,6 +19,7 @@ interface LoginModalProps {
 const LoginModal = ({ onDismiss, onLoginSuccess }: LoginModalProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate()
 
   const {
     register,
@@ -46,8 +48,8 @@ const LoginModal = ({ onDismiss, onLoginSuccess }: LoginModalProps) => {
       setLoading(false);
     } else {
       setLoading(false);
-      console.log(user);
       onLoginSuccess(user.data.user)
+      // navigate('/')
     }
   };
 

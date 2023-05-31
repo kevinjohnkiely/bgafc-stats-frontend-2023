@@ -1,22 +1,23 @@
 import React from 'react';
 import { User } from '../models/user';
-import { Button, Nav, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Button, Navbar } from 'react-bootstrap';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 interface NavBarLoggedInViewProps {
   user: User;
   onLogoutSuccess: () => void;
-  onShowAddPlayerModal: () => void;
 }
 
 const NavBarLoggedInView = ({
   user,
-  onLogoutSuccess,
-  onShowAddPlayerModal
+  onLogoutSuccess
 }: NavBarLoggedInViewProps) => {
+  const navigate = useNavigate()
+
   const logoutUser = async () => {
     await fetch('/api/v1/users/logout', { method: 'POST' });
     onLogoutSuccess();
+    navigate('/')
     // PUT LOGOUT FAILURE CODE HERE //////////////////////
   };
 
@@ -26,7 +27,6 @@ const NavBarLoggedInView = ({
       <Button onClick={logoutUser} variant='danger'>
         Logout
       </Button>
-      <Button onClick={onShowAddPlayerModal}>Add Player</Button>
     </>
   );
 };

@@ -10,11 +10,13 @@ import { TiDelete } from 'react-icons/ti';
 import { Row, Col, Modal, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import { User } from '../models/user';
+import { useNavigate } from 'react-router-dom';
 
 interface PlayerListProps {
   players: Player[];
   onPlayerEditClicked: (player: Player) => void;
   onDeletePlayerClicked: (slug: string) => void;
+  onClearEditPlayer: () => void;
   error: string;
   loading: boolean;
   loggedInUser: User | null;
@@ -26,9 +28,11 @@ const PlayerList = ({
   loading,
   onDeletePlayerClicked,
   onPlayerEditClicked,
+  onClearEditPlayer,
   loggedInUser,
 }: PlayerListProps) => {
   const [show, setShow] = useState(false);
+  const navigate = useNavigate();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [playerToDelete, setPlayerToDelete] = useState('');
@@ -63,7 +67,7 @@ const PlayerList = ({
           </thead>
           <tbody>
             {players.map((player) => (
-              <tr key={player._id}>
+              <tr>
                 <td style={{ textAlign: 'left' }}>
                   <Row className='justify-content-between'>
                     <Col>
@@ -77,14 +81,17 @@ const PlayerList = ({
                         <BiEdit
                           size={24}
                           color='#339900'
-                          onClick={() => onPlayerEditClicked(player)}
+                          onClick={() => {
+                            onPlayerEditClicked(player);
+                            navigate('/addplayer');
+                          }}
                         />{' '}
                         <TiDelete
                           size={24}
                           color='red'
                           onClick={(e) => {
                             handleShow();
-                            setPlayerToDelete(player.slug)
+                            setPlayerToDelete(player.slug);
                             e.stopPropagation();
                           }}
                         />
@@ -104,6 +111,17 @@ const PlayerList = ({
                 </td>
               </tr>
             ))}
+            {loggedInUser && (
+              <tr>
+                <td colSpan={7}>
+                  <Link to={'/addplayer'}>
+                    <Button variant='success' onClick={onClearEditPlayer}>
+                      Add Player
+                    </Button>
+                  </Link>
+                </td>
+              </tr>
+            )}
           </tbody>
         </Table>
       )}

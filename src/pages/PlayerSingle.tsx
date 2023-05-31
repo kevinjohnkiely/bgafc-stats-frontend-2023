@@ -46,6 +46,7 @@ const PlayerSingle = ({
 
   useEffect(() => {
     const fetchPlayer = async () => {
+      console.log('USE EFFECT RUNS in player single');
       setLoading(true);
       const data = await fetch(`/api/v1/players/${slug}`);
       if (data.status === 500) {
@@ -200,20 +201,21 @@ const PlayerSingle = ({
                     </td>
                   </tr>
                 ))}
+                {loggedInUser && (
+                  <tr>
+                    <td colSpan={13}>
+                      <Link to={`/addseason/${player?._id}/${player?.slug}`}>
+                        <Button variant='success' onClick={onClearEditSeason}>
+                          Add Season Stats
+                        </Button>
+                      </Link>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </Table>
           </Row>
-          <Row>
-            <Col>
-              {loggedInUser && (
-                <Link to={`/addseason/${player?._id}/${player?.slug}`}>
-                  <Button variant='primary' onClick={onClearEditSeason}>
-                    Add Season
-                  </Button>
-                </Link>
-              )}
-            </Col>
-          </Row>
+          
         </>
       )}
       <Modal show={show} onHide={handleClose}>

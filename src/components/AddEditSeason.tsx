@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router';
 import Loader from './common/Loader';
 import Notification from './common/Notification';
@@ -103,74 +103,97 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
 
   return (
     <>
-      <p>{seasonToEdit?._id}</p>{' '}
-      <Form id='addEditPlayerForm' onSubmit={handleSubmit(onSubmitSeason)}>
-        <div>{error && <Notification message={error} />}</div>
-        <div>{isSubmitting && <Loader />}</div>
-        <Form.Group className='mb-3'>
-          <Form.Label>Season</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Season Years'
-            isInvalid={!!errors.season}
-            {...register('season', { required: 'Required' })}
-          />
-          <Form.Control.Feedback type='invalid'>
-            {errors.season?.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className='mb-3'>
-          <Form.Label>Team</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Team'
-            isInvalid={!!errors.team}
-            {...register('team', { required: 'Required' })}
-          />
-          <Form.Control.Feedback type='invalid'>
-            {errors.team?.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className='mb-3'>
-          <Form.Label>Division</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Division'
-            isInvalid={!!errors.division}
-            {...register('division', { required: 'Required' })}
-          />
-          <Form.Control.Feedback type='invalid'>
-            {errors.division?.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className='mb-3'>
-          <Form.Label>League Appearances</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='League Appearances'
-            isInvalid={!!errors.lge_apps}
-            {...register('lge_apps', { required: 'Required' })}
-          />
-          <Form.Control.Feedback type='invalid'>
-            {errors.lge_apps?.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className='mb-3'>
-          <Form.Label>League Goals</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='League Goals'
-            isInvalid={!!errors.lge_goals}
-            {...register('lge_goals', { required: 'Required' })}
-          />
-          <Form.Control.Feedback type='invalid'>
-            {errors.lge_goals?.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Button type='submit' form='addEditPlayerForm' disabled={isSubmitting}>
-          Submit
-        </Button>
-      </Form>
+      <h2 style={{ textAlign: 'center' }}>
+        {seasonToEdit ? 'Edit Season' : 'Add Season'}
+      </h2>
+      <hr
+        style={{
+          width: '20%',
+          margin: 'auto',
+          marginTop: '2rem',
+          border: 'solid 3px #ffcb00',
+        }}
+      />
+      <Container style={{ marginTop: '2rem' }}>
+        <Form id='addEditPlayerForm' onSubmit={handleSubmit(onSubmitSeason)}>
+          <div>{error && <Notification message={error} />}</div>
+          <div>{isSubmitting && <Loader />}</div>
+          <Form.Group className='mb-3'>
+            <Form.Label>Season</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Season Years'
+              isInvalid={!!errors.season}
+              {...register('season', { required: 'Required' })}
+            />
+            <Form.Control.Feedback type='invalid'>
+              {errors.season?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label>Team</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Team'
+              isInvalid={!!errors.team}
+              {...register('team', { required: 'Required' })}
+            />
+            <Form.Control.Feedback type='invalid'>
+              {errors.team?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label>Division</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Division'
+              isInvalid={!!errors.division}
+              {...register('division', { required: 'Required' })}
+            />
+            <Form.Control.Feedback type='invalid'>
+              {errors.division?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label>League Appearances</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='League Appearances'
+              isInvalid={!!errors.lge_apps}
+              {...register('lge_apps', { required: 'Required' })}
+            />
+            <Form.Control.Feedback type='invalid'>
+              {errors.lge_apps?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label>League Goals</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='League Goals'
+              isInvalid={!!errors.lge_goals}
+              {...register('lge_goals', { required: 'Required' })}
+            />
+            <Form.Control.Feedback type='invalid'>
+              {errors.lge_goals?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              variant='success'
+              type='submit'
+              form='addEditPlayerForm'
+              style={{ marginRight: '0.6rem' }}
+              disabled={isSubmitting}
+            >
+              {seasonToEdit ? 'Update Season' : 'Add Season'}
+            </Button>{' '}
+            <Link to={`/players/${slug}`}>
+              <Button variant='danger'>Go Back</Button>
+            </Link>
+          </div>
+        </Form>
+      </Container>
     </>
   );
 };

@@ -9,19 +9,18 @@ import PlayerList from './pages/PlayerList';
 import PlayerSingle from './pages/PlayerSingle';
 import styles from './styles/App.module.css';
 
-import AddPlayerModal from './components/AddEditPlayerModal';
 import LoginModal from './components/LoginModal';
 import { Player } from './models/player';
 import { User } from './models/user';
 import AddEditSeason from './components/AddEditSeason';
 import { Season } from './models/season';
+import AddEditPlayer from './components/AddEditPlayer';
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const [showAddPlayerModal, setShowAddPlayerModal] = useState(false);
   const [playerToEdit, setPlayerToEdit] = useState<Player | null>(null);
   const [seasonToEdit, setSeasonToEdit] = useState<Season | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -29,6 +28,7 @@ const App = () => {
   console.log('Parent Component running');
 
   useEffect(() => {
+    console.log('USE EFFECT RUNS in parent app');
     // LOAD THE PLAYER DATA
     const fetchPlayers = async () => {
       console.log('fetch players running');
@@ -69,32 +69,6 @@ const App = () => {
 
   return (
     <Container className={styles.pageMaxWidth}>
-      {showAddPlayerModal && (
-        <AddPlayerModal
-          onPlayerSaved={(newPlayer) => {
-            setPlayers([...players, newPlayer]);
-            setShowAddPlayerModal(false);
-          }}
-          onDismiss={() => setShowAddPlayerModal(false)}
-        />
-      )}
-      {playerToEdit && (
-        <AddPlayerModal
-          playerToEdit={playerToEdit}
-          onDismiss={() => setPlayerToEdit(null)}
-          onPlayerSaved={(updatedPlayer) => {
-            setPlayers(
-              players.map((existingPlayer) =>
-                existingPlayer.slug === updatedPlayer.slug
-                  ? updatedPlayer
-                  : existingPlayer
-              )
-            );
-            setPlayerToEdit(null);
-          }}
-        />
-      )}
-
       {showLoginModal && (
         <LoginModal
           onDismiss={() => setShowLoginModal(false)}
@@ -117,7 +91,6 @@ const App = () => {
         loggedInUser={loggedInUser}
         onLoginClicked={() => setShowLoginModal(true)}
         onLoggedOut={() => setLoggedInUser(null)}
-        onShowAddPlayerModal={() => setShowAddPlayerModal(true)}
       />
       <Container fluid className={styles.routerPanel}>
         <Routes>
@@ -130,6 +103,7 @@ const App = () => {
                 loading={loading}
                 onDeletePlayerClicked={deletePlayer}
                 onPlayerEditClicked={setPlayerToEdit}
+                onClearEditPlayer={() => setPlayerToEdit(null)}
                 loggedInUser={loggedInUser}
               />
             }
@@ -144,10 +118,36 @@ const App = () => {
               />
             }
           />
-          <Route
-            path='/addseason/:playerId/:slug'
-            element={<AddEditSeason seasonToEdit={seasonToEdit} />}
-          />
+          {loggedInUser && (
+            <>
+              <Route
+                path='/addseason/:playerId/:slug'
+                element={<AddEditSeason seasonToEdit={seasonToEdit} />}
+              />
+              <Route
+                path='/addplayer'
+                element={
+                  <AddEditPlayer
+                    playerToEdit={playerToEdit}
+                    onPlayerSaved={(newPlayer) => {
+                      if (playerToEdit) {
+                        setPlayers(
+                          players.map((existingPlayer) =>
+                            existingPlayer.slug === newPlayer.slug
+                              ? newPlayer
+                              : existingPlayer
+                          )
+                        );
+                      } else {
+                        setPlayers([...players, newPlayer]);
+                      }
+                    }}
+                  />
+                }
+              />
+            </>
+          )}
+
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
       </Container>
