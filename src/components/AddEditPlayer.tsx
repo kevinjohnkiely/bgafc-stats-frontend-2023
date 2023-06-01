@@ -3,6 +3,7 @@ import { Player } from '../models/player';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import TextInputField from './form/TextInputField';
 
 interface AddEditPlayerProps {
   playerToEdit?: Player | null;
@@ -12,6 +13,12 @@ interface AddEditPlayerProps {
 interface PlayerInput {
   firstName: string;
   lastName: string;
+  slug: string;
+  dateOfBirth: string;
+  position: string;
+  debut: string;
+  firstGoal: string;
+  honours: string;
 }
 
 const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
@@ -26,6 +33,7 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
     defaultValues: {
       firstName: playerToEdit?.firstName || '',
       lastName: playerToEdit?.lastName || '',
+      slug: playerToEdit?.slug || '',
     },
   });
 
@@ -59,7 +67,6 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
 
   const editPlayer = async (slug: string, player: PlayerInput) => {
     setLoading(true);
-    console.log('Edit palyer function');
 
     const response = await fetch(`/api/v1/players/${slug}`, {
       method: 'PATCH',
@@ -87,9 +94,11 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
   };
 
   const onSubmitPlayer = async (input: PlayerInput) => {
+    
     let playerResponse: Player;
     if (playerToEdit) {
       playerResponse = await editPlayer(playerToEdit.slug, input);
+      console.log(playerResponse)
     } else {
       playerResponse = await createPlayer(input);
     }
@@ -114,33 +123,99 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
       <Container style={{ marginTop: '2rem' }}>
         <Form onSubmit={handleSubmit(onSubmitPlayer)}>
           <Row>
+            <Col md={4} sm={12}>
+              <TextInputField
+                name='firstName'
+                label='First Name'
+                type='text'
+                placeholder='First Name'
+                register={register}
+                registerOptions={{ required: 'Required' }}
+                error={errors.firstName}
+              />
+            </Col>
+            <Col md={4} sm={12}>
+              <TextInputField
+                name='lastName'
+                label='Last Name'
+                type='text'
+                placeholder='Last Name'
+                register={register}
+                registerOptions={{ required: 'Required' }}
+                error={errors.lastName}
+              />
+            </Col>
+            <Col md={4} sm={12}>
+              <TextInputField
+                name='slug'
+                label='Player slug'
+                type='text'
+                placeholder='player-slug'
+                register={register}
+                // disabled
+              />
+            </Col>
+          </Row>
+          <Row>
             <Col md={6} sm={12}>
-              <Form.Group className='mb-3'>
-                <Form.Label>First Name</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='First Name'
-                  isInvalid={!!errors.firstName}
-                  {...register('firstName', { required: 'Required' })}
-                />
-                <Form.Control.Feedback type='invalid'>
-                  {errors.firstName?.message}
-                </Form.Control.Feedback>
-              </Form.Group>
+              <TextInputField
+                name='dateOfBirth'
+                label='Date of Birth'
+                type='text'
+                placeholder='Date of Birth'
+                register={register}
+                // registerOptions={{ required: 'Required' }}
+                // error={errors.dateOfBirth}
+              />
             </Col>
             <Col md={6} sm={12}>
-              <Form.Group className='mb-3'>
-                <Form.Label>Last Name</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='Last Name'
-                  isInvalid={!!errors.lastName}
-                  {...register('lastName', { required: 'Required' })}
-                />
-                <Form.Control.Feedback type='invalid'>
-                  {errors.lastName?.message}
-                </Form.Control.Feedback>
-              </Form.Group>
+              <TextInputField
+                name='position'
+                label='Position'
+                type='text'
+                placeholder='Position'
+                register={register}
+                // registerOptions={{ required: 'Required' }}
+                // error={errors.position}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6} sm={12}>
+              <TextInputField
+                name='debut'
+                label='Debut'
+                type='text'
+                placeholder='Debut'
+                register={register}
+                // registerOptions={{ required: 'Required' }}
+                // error={errors.debut}
+              />
+            </Col>
+            <Col md={6} sm={12}>
+              <TextInputField
+                name='firstGoal'
+                label='First Goal'
+                type='text'
+                placeholder='First Goal'
+                register={register}
+                // registerOptions={{ required: 'Required' }}
+                // error={errors.firstGoal}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <TextInputField
+                name='honours'
+                label='Honours'
+                as='textarea'
+                rows={5}
+                placeholder='Honours'
+                register={register}
+                // registerOptions={{ required: 'Required' }}
+                // error={errors.firstGoal}
+              />
             </Col>
           </Row>
 

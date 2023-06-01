@@ -25,8 +25,6 @@ const App = () => {
   const [seasonToEdit, setSeasonToEdit] = useState<Season | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  console.log('Parent Component running');
-
   useEffect(() => {
     console.log('USE EFFECT RUNS in parent app');
     // LOAD THE PLAYER DATA
@@ -133,7 +131,7 @@ const App = () => {
                       if (playerToEdit) {
                         setPlayers(
                           players.map((existingPlayer) =>
-                            existingPlayer.slug === newPlayer.slug
+                            existingPlayer._id === newPlayer._id
                               ? newPlayer
                               : existingPlayer
                           )
