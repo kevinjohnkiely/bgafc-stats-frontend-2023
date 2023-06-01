@@ -79,7 +79,7 @@ const App = () => {
 
       <header className={styles.pageMarginTop}>
         <Image
-          src={header}
+          // src={header}
           alt='Ballingarry AFC stats 1984 - Present'
           fluid
           className={styles.headerImageFullWidth}

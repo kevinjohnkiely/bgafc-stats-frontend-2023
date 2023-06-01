@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import TextInputField from './form/TextInputField';
+import Loader from './common/Loader';
+import Notification from '../components/common/Notification';
 
 interface AddEditPlayerProps {
   playerToEdit?: Player | null;
@@ -28,6 +30,7 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<PlayerInput>({
     defaultValues: {
@@ -85,6 +88,7 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
 
     if (playerRes.message) {
       setError(playerRes.message);
+      reset();
       setLoading(false);
     } else {
       setLoading(false);
@@ -94,11 +98,10 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
   };
 
   const onSubmitPlayer = async (input: PlayerInput) => {
-    
     let playerResponse: Player;
     if (playerToEdit) {
       playerResponse = await editPlayer(playerToEdit.slug, input);
-      console.log(playerResponse)
+      console.log(playerResponse);
     } else {
       playerResponse = await createPlayer(input);
     }
@@ -120,6 +123,8 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
           border: 'solid 3px #ffcb00',
         }}
       />
+      {loading && <Loader />}
+      {error && <Notification message={error} />}
       <Container style={{ marginTop: '2rem' }}>
         <Form onSubmit={handleSubmit(onSubmitPlayer)}>
           <Row>
@@ -148,11 +153,12 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
             <Col md={4} sm={12}>
               <TextInputField
                 name='slug'
-                label='Player slug'
+                label='Player Slug (what is this?)'
+                tooltip
                 type='text'
                 placeholder='player-slug'
                 register={register}
-                // disabled
+                disabled={!playerToEdit}
               />
             </Col>
           </Row>
