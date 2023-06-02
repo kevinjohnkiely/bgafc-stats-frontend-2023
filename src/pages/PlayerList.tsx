@@ -115,7 +115,13 @@ const PlayerList = ({
               <tr>
                 <td colSpan={7}>
                   <Link to={'/addplayer'}>
-                    <Button variant='success' onClick={onClearEditPlayer}>
+                    <Button
+                      variant='success'
+                      onClick={() => {
+                        onClearEditPlayer();
+                        // onPlayerCreatedClicked();
+                      }}
+                    >
                       Add Player
                     </Button>
                   </Link>

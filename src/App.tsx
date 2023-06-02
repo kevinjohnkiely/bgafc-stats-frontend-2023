@@ -9,12 +9,12 @@ import PlayerList from './pages/PlayerList';
 import PlayerSingle from './pages/PlayerSingle';
 import styles from './styles/App.module.css';
 
+import AddEditPlayer from './components/AddEditPlayer';
+import AddEditSeason from './components/AddEditSeason';
 import LoginModal from './components/LoginModal';
 import { Player } from './models/player';
-import { User } from './models/user';
-import AddEditSeason from './components/AddEditSeason';
 import { Season } from './models/season';
-import AddEditPlayer from './components/AddEditPlayer';
+import { User } from './models/user';
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
@@ -79,7 +79,7 @@ const App = () => {
 
       <header className={styles.pageMarginTop}>
         <Image
-          // src={header}
+          src={header}
           alt='Ballingarry AFC stats 1984 - Present'
           fluid
           className={styles.headerImageFullWidth}
@@ -120,7 +120,35 @@ const App = () => {
             <>
               <Route
                 path='/addseason/:playerId/:slug'
-                element={<AddEditSeason seasonToEdit={seasonToEdit} />}
+                element={
+                  <AddEditSeason
+                    seasonToEdit={seasonToEdit}
+                    onSeasonSaved={(newSeason) => {
+                      const [findSeasonPlayer] = players.filter(
+                        (player) => player._id === newSeason.player
+                      );
+                      if (newSeason.seasonTotalAppsA) {
+                        findSeasonPlayer.aTeamApps +=
+                          newSeason?.seasonTotalAppsA!;
+                        findSeasonPlayer.aTeamGoals +=
+                          newSeason?.seasonTotalGoalsA!;
+                      } else {
+                        findSeasonPlayer.bTeamApps +=
+                          newSeason?.seasonTotalAppsB!;
+                        findSeasonPlayer.bTeamGoals +=
+                          newSeason?.seasonTotalGoalsB!;
+                      }
+
+                      setPlayers(
+                        players.map((existingPlayer) =>
+                          existingPlayer._id === findSeasonPlayer._id
+                            ? findSeasonPlayer
+                            : existingPlayer
+                        )
+                      );
+                    }}
+                  />
+                }
               />
               <Route
                 path='/addplayer'
@@ -145,7 +173,6 @@ const App = () => {
               />
             </>
           )}
-
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
       </Container>

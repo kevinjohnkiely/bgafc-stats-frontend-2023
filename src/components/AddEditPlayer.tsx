@@ -37,6 +37,11 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
       firstName: playerToEdit?.firstName || '',
       lastName: playerToEdit?.lastName || '',
       slug: playerToEdit?.slug || '',
+      dateOfBirth: playerToEdit?.dateOfBirth || '',
+      position: playerToEdit?.position || '',
+      debut: playerToEdit?.debut || '',
+      firstGoal: playerToEdit?.firstGoal || '',
+      honours: playerToEdit?.honours || ''
     },
   });
 
@@ -105,6 +110,7 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
     } else {
       playerResponse = await createPlayer(input);
     }
+    console.log(playerResponse)
     onPlayerSaved(playerResponse);
   };
 
@@ -180,9 +186,10 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
                 label='Position'
                 type='text'
                 placeholder='Position'
+                maxLength={20}
                 register={register}
                 // registerOptions={{ required: 'Required' }}
-                // error={errors.position}
+                error={errors.position}
               />
             </Col>
           </Row>

@@ -10,6 +10,7 @@ import TextInputField from './form/TextInputField';
 
 interface AddEditSeasonProps {
   seasonToEdit?: Season | null;
+  onSeasonSaved: (season: Season) => void;
 }
 
 interface SeasonInput {
@@ -34,7 +35,7 @@ interface SeasonInput {
   hoganc_goals: number;
 }
 
-const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
+const AddEditSeason = ({ seasonToEdit, onSeasonSaved }: AddEditSeasonProps) => {
   const { playerId, slug } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -92,6 +93,7 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
       setLoading(false);
       navigate(`/players/${slug}`);
     }
+    return seasonRes.data.season
   };
 
   const editSeason = async (input: SeasonInput, seasonId: string) => {
@@ -119,15 +121,18 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
       setLoading(false);
       navigate(`/players/${slug}`);
     }
-    // return playerRes.data.player;
+    return seasonRes.data.season
   };
 
   const onSubmitSeason = async (input: SeasonInput) => {
+    let seasonResponse: Season;
     if (seasonToEdit) {
-      await editSeason(input, seasonToEdit._id);
+      seasonResponse = await editSeason(input, seasonToEdit._id);
     } else {
-      await createSeason(input);
+      seasonResponse = await createSeason(input);
     }
+    console.log(seasonResponse)
+    onSeasonSaved(seasonResponse);
   };
 
   // MOVE THIS TO OTHER FOLDER LATER

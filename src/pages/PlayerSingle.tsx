@@ -197,7 +197,7 @@ const PlayerSingle = ({
                         : `${season.seasonTotalAppsB} (${season.seasonTotalGoalsB})`}
                     </td>
                     <td>
-                      {season.hoganc_apps} ({season.hoganc_goals})
+                      {/* {season.hoganc_apps} ({season.hoganc_goals}) */}
                     </td>
                   </tr>
                 ))}
