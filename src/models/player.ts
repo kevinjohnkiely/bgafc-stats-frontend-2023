@@ -17,5 +17,5 @@ export interface Player {
   bTeamGoals: number;
   totalApps: number;
   totalGoals: number;
-  seasons: [Season];
+  seasons: Season[];
 }

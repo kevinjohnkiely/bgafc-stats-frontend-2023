@@ -150,7 +150,7 @@ const PlayerSingle = ({
                             onClick={() => {
                               onSeasonEditClicked(season);
                               navigate(
-                                `/addseason/${player?._id}/${player?.slug}`
+                                `/addseason/${player?._id}/${player?.slug}/${season.team}`
                               );
                             }}
                           />{' '}
@@ -204,9 +204,14 @@ const PlayerSingle = ({
                 {loggedInUser && (
                   <tr>
                     <td colSpan={13}>
-                      <Link to={`/addseason/${player?._id}/${player?.slug}`}>
+                      <Link to={`/addseason/${player?._id}/${player?.slug}/A`}>
                         <Button variant='success' onClick={onClearEditSeason}>
-                          Add Season Stats
+                          Add Season Stats (A Team)
+                        </Button>
+                      </Link>{" "}
+                      <Link to={`/addseason/${player?._id}/${player?.slug}/B`}>
+                        <Button variant='info' onClick={onClearEditSeason}>
+                          Add Season Stats (B Team)
                         </Button>
                       </Link>
                     </td>

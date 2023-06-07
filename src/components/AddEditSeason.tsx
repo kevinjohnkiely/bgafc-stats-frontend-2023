@@ -15,8 +15,8 @@ interface AddEditSeasonProps {
 
 interface SeasonInput {
   season: string;
-  team: string;
   division: string;
+  team?: string;
   lge_apps: number;
   lge_goals: number;
   fai_apps: number;
@@ -36,7 +36,7 @@ interface SeasonInput {
 }
 
 const AddEditSeason = ({ seasonToEdit, onSeasonSaved }: AddEditSeasonProps) => {
-  const { playerId, slug } = useParams();
+  const { playerId, slug, team } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -47,7 +47,6 @@ const AddEditSeason = ({ seasonToEdit, onSeasonSaved }: AddEditSeasonProps) => {
   } = useForm<SeasonInput>({
     defaultValues: {
       season: seasonToEdit?.season || '',
-      team: seasonToEdit?.team || '',
       division: seasonToEdit?.division || '',
       lge_apps: seasonToEdit?.lge_apps || 0,
       lge_goals: seasonToEdit?.lge_goals || 0,
@@ -93,7 +92,7 @@ const AddEditSeason = ({ seasonToEdit, onSeasonSaved }: AddEditSeasonProps) => {
       setLoading(false);
       navigate(`/players/${slug}`);
     }
-    return seasonRes.data.season
+    return seasonRes.data.season;
   };
 
   const editSeason = async (input: SeasonInput, seasonId: string) => {
@@ -121,17 +120,19 @@ const AddEditSeason = ({ seasonToEdit, onSeasonSaved }: AddEditSeasonProps) => {
       setLoading(false);
       navigate(`/players/${slug}`);
     }
-    return seasonRes.data.season
+    return seasonRes.data.season;
   };
 
   const onSubmitSeason = async (input: SeasonInput) => {
     let seasonResponse: Season;
     if (seasonToEdit) {
+      input.team = team;
       seasonResponse = await editSeason(input, seasonToEdit._id);
     } else {
+      input.team = team;
       seasonResponse = await createSeason(input);
     }
-    console.log(seasonResponse)
+    console.log(seasonResponse);
     onSeasonSaved(seasonResponse);
   };
 
@@ -152,8 +153,8 @@ const AddEditSeason = ({ seasonToEdit, onSeasonSaved }: AddEditSeasonProps) => {
     <>
       <h2 style={{ textAlign: 'center' }}>
         {seasonToEdit
-          ? `Edit Season: ${deslugify(slug)}`
-          : `Add Season: ${deslugify(slug)}`}
+          ? `Edit Season (${team} Team): ${deslugify(slug)}`
+          : `Add Season (${team} Team): ${deslugify(slug)}`}
       </h2>
       <hr
         style={{
@@ -167,35 +168,24 @@ const AddEditSeason = ({ seasonToEdit, onSeasonSaved }: AddEditSeasonProps) => {
       {error && <Notification message={error} />}
       <Container style={{ marginTop: '2rem' }}>
         <Form onSubmit={handleSubmit(onSubmitSeason)}>
+          <input type='hidden' name='team' value={team} />
           {/* <div>{error && <Notification message={error} />}</div>
           <div>{isSubmitting && <Loader />}</div> */}
           <Row>
-            <Col md={3} sm={6}>
+            <Col md={2} sm={6}>
               <TextInputField
                 name='season'
+                autoFocus
                 label='Season Years'
                 type='text'
-                placeholder='Season Years'
+                placeholder='e.g: 2022/03'
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.season}
               />
             </Col>
-            <Col md={3} sm={6}>
-              <Form.Group className='mb-3'>
-                <Form.Label>Team</Form.Label>
-                <Form.Select
-                  isInvalid={!!errors.team}
-                  defaultValue='A'
-                  {...register('team', { required: 'Required' })}
-                >
-                  <option value='A'>A</option>
-                  <option value='B'>B</option>
-                </Form.Select>
-              </Form.Group>
-            </Col>
-            <Col md={3} sm={6}>
-              <TextInputField
+            <Col md={2} sm={6}>
+              {/* <TextInputField
                 name='division'
                 label='Division'
                 type='text'
@@ -203,7 +193,24 @@ const AddEditSeason = ({ seasonToEdit, onSeasonSaved }: AddEditSeasonProps) => {
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.division}
-              />
+              /> */}
+              <Form.Group className='mb-3'>
+                <Form.Label>Division</Form.Label>
+                <Form.Select
+                  isInvalid={!!errors.division}
+                  defaultValue='Prem'
+                  {...register('division', { required: 'Required' })}
+                >
+                  <option value='Prem'>Prem</option>
+                  <option value='1'>1</option>
+                  <option value='2'>2</option>
+                  <option value='2a'>2a</option>
+                  <option value='2b'>2b</option>
+                  <option value='3a'>3a</option>
+                  <option value='3b'>3b</option>
+                  <option value='4'>4</option>
+                </Form.Select>
+              </Form.Group>
             </Col>
           </Row>
           <Row>
@@ -379,7 +386,7 @@ const AddEditSeason = ({ seasonToEdit, onSeasonSaved }: AddEditSeasonProps) => {
               style={{ marginRight: '0.6rem' }}
               disabled={isSubmitting}
             >
-              {seasonToEdit ? 'Update Season' : 'Add Season'}
+              {seasonToEdit ? `Update Season` : `Add Season`}
             </Button>{' '}
             <Link to={`/players/${slug}`}>
               <Button variant='danger'>Go Back</Button>
