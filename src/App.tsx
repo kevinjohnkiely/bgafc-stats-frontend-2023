@@ -23,7 +23,7 @@ const App = () => {
   const [error, setError] = useState<string>('');
   const [playerToEdit, setPlayerToEdit] = useState<Player | null>(null);
   const [seasonToEdit, setSeasonToEdit] = useState<Season | null>(null);
-  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
     console.log('USE EFFECT RUNS in parent app');
@@ -123,52 +123,52 @@ const App = () => {
                 element={
                   <AddEditSeason
                     seasonToEdit={seasonToEdit}
-                    onSeasonSaved={(newSeason) => {
-                      const [findSeasonPlayer] = players.filter(
-                        (player) => player._id === newSeason.player
-                      );
+                    // onSeasonSaved={(newSeason) => {
+                    //   const [findSeasonPlayer] = players.filter(
+                    //     (player) => player._id === newSeason.player
+                    //   );
 
-                      if (seasonToEdit) {
-                        if (
-                          seasonToEdit?.seasonTotalAppsA! >
-                          newSeason?.seasonTotalAppsA!
-                        ) {
-                          findSeasonPlayer.aTeamApps +=
-                            seasonToEdit?.seasonTotalAppsA! -
-                            newSeason?.seasonTotalAppsA!;
-                        } else {
-                          findSeasonPlayer.aTeamApps -=
-                            seasonToEdit?.seasonTotalAppsA! -
-                            newSeason?.seasonTotalAppsA!;
-                        }
-                      } else {
-                        if (newSeason.seasonTotalAppsA) {
-                          findSeasonPlayer.aTeamApps +=
-                            newSeason?.seasonTotalAppsA!;
-                          findSeasonPlayer.aTeamGoals +=
-                            newSeason?.seasonTotalGoalsA!;
-                        } else {
-                          findSeasonPlayer.bTeamApps +=
-                            newSeason?.seasonTotalAppsB!;
-                          findSeasonPlayer.bTeamGoals +=
-                            newSeason?.seasonTotalGoalsB!;
-                        }
-                        findSeasonPlayer.totalApps =
-                          findSeasonPlayer.aTeamApps +
-                          findSeasonPlayer.bTeamApps;
-                        findSeasonPlayer.totalGoals =
-                          findSeasonPlayer.aTeamGoals +
-                          findSeasonPlayer.bTeamGoals;
-                      }
+                    //   if (seasonToEdit) {
+                    //     if (
+                    //       seasonToEdit?.seasonTotalAppsA! >
+                    //       newSeason?.seasonTotalAppsA!
+                    //     ) {
+                    //       findSeasonPlayer.aTeamApps +=
+                    //         seasonToEdit?.seasonTotalAppsA! -
+                    //         newSeason?.seasonTotalAppsA!;
+                    //     } else {
+                    //       findSeasonPlayer.aTeamApps -=
+                    //         seasonToEdit?.seasonTotalAppsA! -
+                    //         newSeason?.seasonTotalAppsA!;
+                    //     }
+                    //   } else {
+                    //     if (newSeason.seasonTotalAppsA) {
+                    //       findSeasonPlayer.aTeamApps +=
+                    //         newSeason?.seasonTotalAppsA!;
+                    //       findSeasonPlayer.aTeamGoals +=
+                    //         newSeason?.seasonTotalGoalsA!;
+                    //     } else {
+                    //       findSeasonPlayer.bTeamApps +=
+                    //         newSeason?.seasonTotalAppsB!;
+                    //       findSeasonPlayer.bTeamGoals +=
+                    //         newSeason?.seasonTotalGoalsB!;
+                    //     }
+                    //     findSeasonPlayer.totalApps =
+                    //       findSeasonPlayer.aTeamApps +
+                    //       findSeasonPlayer.bTeamApps;
+                    //     findSeasonPlayer.totalGoals =
+                    //       findSeasonPlayer.aTeamGoals +
+                    //       findSeasonPlayer.bTeamGoals;
+                    //   }
 
-                      setPlayers(
-                        players.map((existingPlayer) =>
-                          existingPlayer._id === findSeasonPlayer._id
-                            ? findSeasonPlayer
-                            : existingPlayer
-                        )
-                      );
-                    }}
+                    //   setPlayers(
+                    //     players.map((existingPlayer) =>
+                    //       existingPlayer._id === findSeasonPlayer._id
+                    //         ? findSeasonPlayer
+                    //         : existingPlayer
+                    //     )
+                    //   );
+                    // }}
                   />
                 }
               />

@@ -10,7 +10,7 @@ import TextInputField from './form/TextInputField';
 
 interface AddEditSeasonProps {
   seasonToEdit?: Season | null;
-  onSeasonSaved: (season: Season) => void;
+  // onSeasonSaved: (season: Season) => void;
 }
 
 interface SeasonInput {
@@ -35,7 +35,7 @@ interface SeasonInput {
   hoganc_goals: number;
 }
 
-const AddEditSeason = ({ seasonToEdit, onSeasonSaved }: AddEditSeasonProps) => {
+const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
   const { playerId, slug, team } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -133,7 +133,8 @@ const AddEditSeason = ({ seasonToEdit, onSeasonSaved }: AddEditSeasonProps) => {
       seasonResponse = await createSeason(input);
     }
     console.log(seasonResponse);
-    onSeasonSaved(seasonResponse);
+    // onSeasonSaved(seasonResponse);
+    navigate(0);
   };
 
   // MOVE THIS TO OTHER FOLDER LATER
