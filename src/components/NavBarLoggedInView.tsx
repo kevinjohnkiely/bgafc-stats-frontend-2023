@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { User } from '../models/user';
 import { Button, Navbar } from 'react-bootstrap';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface NavBarLoggedInViewProps {
   user: User;
@@ -10,15 +10,20 @@ interface NavBarLoggedInViewProps {
 
 const NavBarLoggedInView = ({
   user,
-  onLogoutSuccess
+  onLogoutSuccess,
 }: NavBarLoggedInViewProps) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const logoutUser = async () => {
-    await fetch('/api/v1/users/logout', { method: 'POST' });
-    onLogoutSuccess();
-    navigate('/')
-    // PUT LOGOUT FAILURE CODE HERE //////////////////////
+    const response = await fetch('/api/v1/users/logout', { method: 'POST' });
+
+    if (response.status === 500) {
+      setError('Failed to log out! Please try again soon...');
+    } else {
+      onLogoutSuccess();
+      navigate('/');
+    }
   };
 
   return (
@@ -26,7 +31,8 @@ const NavBarLoggedInView = ({
       <Navbar.Text className='me-2'>Logged in as: {user?.username}</Navbar.Text>
       <Button onClick={logoutUser} variant='danger'>
         Logout
-      </Button>
+      </Button>{" "}
+      { error && <div style={{ color: 'white'}}>{error}</div> }
     </>
   );
 };

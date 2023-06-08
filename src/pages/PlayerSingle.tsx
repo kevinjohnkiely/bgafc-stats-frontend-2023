@@ -134,7 +134,6 @@ const PlayerSingle = ({
                   <th>Reidy C</th>
                   <th>Hogan C</th>
                   <th>Total</th>
-                  <th>Career</th>
                 </tr>
               </thead>
               <tbody>
@@ -196,9 +195,6 @@ const PlayerSingle = ({
                         ? `${season.seasonTotalAppsA} (${season.seasonTotalGoalsA})`
                         : `${season.seasonTotalAppsB} (${season.seasonTotalGoalsB})`}
                     </td>
-                    <td>
-                      {/* {season.hoganc_apps} ({season.hoganc_goals}) */}
-                    </td>
                   </tr>
                 ))}
                 {loggedInUser && (
@@ -208,7 +204,7 @@ const PlayerSingle = ({
                         <Button variant='success' onClick={onClearEditSeason}>
                           Add Season Stats (A Team)
                         </Button>
-                      </Link>{" "}
+                      </Link>{' '}
                       <Link to={`/addseason/${player?._id}/${player?.slug}/B`}>
                         <Button variant='info' onClick={onClearEditSeason}>
                           Add Season Stats (B Team)
@@ -220,7 +216,6 @@ const PlayerSingle = ({
               </tbody>
             </Table>
           </Row>
-          
         </>
       )}
       <Modal show={show} onHide={handleClose}>

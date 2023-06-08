@@ -135,7 +135,7 @@ const PlayerList = ({
         <Modal.Header closeButton>
           <Modal.Title>Deleting Player</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this?</Modal.Body>
+        <Modal.Body>Are you sure you want to delete this player?</Modal.Body>
         <Modal.Footer>
           <Button variant='secondary' onClick={handleClose}>
             No

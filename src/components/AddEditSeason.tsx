@@ -41,6 +41,7 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const {
+    watch,
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -170,8 +171,6 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
       <Container style={{ marginTop: '2rem' }}>
         <Form onSubmit={handleSubmit(onSubmitSeason)}>
           <input type='hidden' name='team' value={team} />
-          {/* <div>{error && <Notification message={error} />}</div>
-          <div>{isSubmitting && <Loader />}</div> */}
           <Row>
             <Col md={2} sm={6}>
               <TextInputField
@@ -186,15 +185,6 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
               />
             </Col>
             <Col md={2} sm={6}>
-              {/* <TextInputField
-                name='division'
-                label='Division'
-                type='text'
-                placeholder='Division'
-                register={register}
-                registerOptions={{ required: 'Required' }}
-                error={errors.division}
-              /> */}
               <Form.Group className='mb-3'>
                 <Form.Label>Division</Form.Label>
                 <Form.Select
@@ -219,7 +209,8 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
               <TextInputField
                 name='lge_apps'
                 label='League Apps'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.lge_apps}
@@ -227,9 +218,11 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
             </Col>
             <Col md={2} sm={6}>
               <TextInputField
+                disabled={!watch('lge_apps')}
                 name='lge_goals'
                 label='League Goals'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.lge_goals}
@@ -239,7 +232,8 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
               <TextInputField
                 name='fai_apps'
                 label='FAI Cup Apps'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.fai_apps}
@@ -247,9 +241,11 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
             </Col>
             <Col md={2} sm={6}>
               <TextInputField
+                disabled={!watch('fai_apps')}
                 name='fai_goals'
                 label='FAI Cup Goals'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.fai_goals}
@@ -259,7 +255,8 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
               <TextInputField
                 name='mjc_apps'
                 label='MJC Apps'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.mjc_apps}
@@ -267,9 +264,11 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
             </Col>
             <Col md={2} sm={6}>
               <TextInputField
+                disabled={!watch('mjc_apps')}
                 name='mjc_goals'
                 label='MJC Goals'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.mjc_goals}
@@ -281,7 +280,8 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
               <TextInputField
                 name='msc_apps'
                 label='MSC Apps'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.msc_apps}
@@ -289,9 +289,11 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
             </Col>
             <Col md={2} sm={6}>
               <TextInputField
+                disabled={!watch('msc_apps')}
                 name='msc_goals'
                 label='MSC Goals'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.msc_goals}
@@ -301,7 +303,8 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
               <TextInputField
                 name='desc_apps'
                 label='Des. Cup Apps'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.desc_apps}
@@ -309,9 +312,11 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
             </Col>
             <Col md={2} sm={6}>
               <TextInputField
+                disabled={!watch('desc_apps')}
                 name='desc_goals'
                 label='Des. Cup Goals'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.desc_goals}
@@ -321,7 +326,8 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
               <TextInputField
                 name='lgec_apps'
                 label='Lge. Cup Apps'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.lgec_apps}
@@ -329,9 +335,11 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
             </Col>
             <Col md={2} sm={6}>
               <TextInputField
+                disabled={!watch('lgec_apps')}
                 name='lgec_goals'
                 label='Lge. Cup Goals'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.lgec_goals}
@@ -343,7 +351,8 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
               <TextInputField
                 name='reidyc_apps'
                 label='Reidy Cup Apps'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.reidyc_apps}
@@ -351,9 +360,11 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
             </Col>
             <Col md={2} sm={6}>
               <TextInputField
+                disabled={!watch('reidyc_apps')}
                 name='reidyc_goals'
                 label='Reidy Cup Goals'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.reidyc_goals}
@@ -363,7 +374,8 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
               <TextInputField
                 name='hoganc_apps'
                 label='Hogan Cup Apps'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.hoganc_apps}
@@ -371,9 +383,11 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
             </Col>
             <Col md={2} sm={6}>
               <TextInputField
+                disabled={!watch('hoganc_apps')}
                 name='hoganc_goals'
                 label='Hogan Cup Goals'
-                type='text'
+                type='number'
+                min={0}
                 register={register}
                 registerOptions={{ required: 'Required' }}
                 error={errors.hoganc_goals}
