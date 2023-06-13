@@ -1,4 +1,3 @@
-import React from 'react';
 import { Alert } from 'react-bootstrap';
 
 interface NotificationProps {
@@ -6,7 +5,7 @@ interface NotificationProps {
 }
 
 const Notification = ({ message }: NotificationProps) => {
-  return <Alert variant='danger'>{ message }</Alert>;
+  return <Alert variant='danger' dismissible>{ message }</Alert>;
 };
 
 export default Notification;

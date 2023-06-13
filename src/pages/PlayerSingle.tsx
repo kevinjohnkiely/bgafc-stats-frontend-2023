@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import Loader from '../components/common/Loader';
 import Notification from '../components/common/Notification';
-import blank from '../assets/images/blank.jpg';
 import styles from './../styles/PlayerSingle.module.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -92,7 +91,17 @@ const PlayerSingle = ({
 
           <Row>
             <Col lg={2} md={4}>
-              <Image src={blank} />
+              {/* {player?.image ? 'yes' : 'no'} */}
+              <Image
+                src={player?.image}
+                style={{ marginBottom: '1rem' }}
+                alt={`${player?.firstName} ${player?.lastName}`}
+              />
+              <Link to={`/addimage/${player?.slug}`}>
+                <Button variant='success' onClick={onClearEditSeason}>
+                  Add/Edit Photo
+                </Button>
+              </Link>
             </Col>
             <Col lg={10} md={8}>
               <span className={styles.greenBold}>

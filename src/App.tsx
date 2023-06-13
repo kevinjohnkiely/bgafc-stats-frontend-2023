@@ -15,15 +15,18 @@ import LoginModal from './components/LoginModal';
 import { Player } from './models/player';
 import { Season } from './models/season';
 import { User } from './models/user';
+import AddImage from './components/AddImage';
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const [queryStr, setQueryStr] = useState<string>('');
   const [playerToEdit, setPlayerToEdit] = useState<Player | null>(null);
   const [seasonToEdit, setSeasonToEdit] = useState<Season | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showLoggedOutMessage, setShowLoggedOutMessage] = useState(false);
 
   useEffect(() => {
     console.log('USE EFFECT RUNS in parent app');
@@ -31,7 +34,9 @@ const App = () => {
     const fetchPlayers = async () => {
       console.log('fetch players running');
       setLoading(true);
-      const data = await fetch('/api/v1/players', { method: 'GET' });
+      const data = await fetch(`/api/v1/players?sort=${queryStr}`, {
+        method: 'GET',
+      });
       if (data.status === 500) {
         setError('Server Error: Please try again soon.');
         setLoading(false);
@@ -50,11 +55,10 @@ const App = () => {
     const getLoggedInUser = async () => {
       const response = await fetch('/api/v1/users/getuser', { method: 'GET' });
       const user = await response.json();
-      console.log(user.data.user);
       setLoggedInUser(user.data.user);
     };
     getLoggedInUser();
-  }, []);
+  }, [queryStr]);
 
   const deletePlayer = async (slug: string) => {
     await fetch(`/api/v1/players/${slug}`, {
@@ -79,7 +83,7 @@ const App = () => {
 
       <header className={styles.pageMarginTop}>
         <Image
-          src={header}
+          // src={header}
           alt='Ballingarry AFC stats 1984 - Present'
           fluid
           className={styles.headerImageFullWidth}
@@ -87,8 +91,14 @@ const App = () => {
       </header>
       <MainNav
         loggedInUser={loggedInUser}
-        onLoginClicked={() => setShowLoginModal(true)}
-        onLoggedOut={() => setLoggedInUser(null)}
+        onLoginClicked={() => {
+          setShowLoginModal(true);
+          setShowLoggedOutMessage(false);
+        }}
+        onLoggedOut={() => {
+          setLoggedInUser(null);
+          setShowLoggedOutMessage(true);
+        }}
       />
       <Container fluid className={styles.routerPanel}>
         <Routes>
@@ -102,7 +112,9 @@ const App = () => {
                 onDeletePlayerClicked={deletePlayer}
                 onPlayerEditClicked={setPlayerToEdit}
                 onClearEditPlayer={() => setPlayerToEdit(null)}
+                onSetQueryString={setQueryStr}
                 loggedInUser={loggedInUser}
+                loggedOutMsg={showLoggedOutMessage}
               />
             }
           />
@@ -172,6 +184,7 @@ const App = () => {
                   />
                 }
               />
+              <Route path='/addimage/:playerSlug' element={<AddImage />} />
               <Route
                 path='/addplayer'
                 element={

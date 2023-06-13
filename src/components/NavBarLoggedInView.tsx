@@ -31,8 +31,8 @@ const NavBarLoggedInView = ({
       <Navbar.Text className='me-2'>Logged in as: {user?.username}</Navbar.Text>
       <Button onClick={logoutUser} variant='danger'>
         Logout
-      </Button>{" "}
-      { error && <div style={{ color: 'white'}}>{error}</div> }
+      </Button>{' '}
+      {error && <div style={{ color: 'white' }}>{error}</div>}
     </>
   );
 };

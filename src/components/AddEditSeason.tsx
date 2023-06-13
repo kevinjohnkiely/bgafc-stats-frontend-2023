@@ -7,6 +7,7 @@ import Loader from './common/Loader';
 import Notification from './common/Notification';
 import { Season } from '../models/season';
 import TextInputField from './form/TextInputField';
+import { deslugify } from '../utils/deslugify';
 
 interface AddEditSeasonProps {
   seasonToEdit?: Season | null;
@@ -138,19 +139,6 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
     navigate(0);
   };
 
-  // MOVE THIS TO OTHER FOLDER LATER
-  const deslugify = (slug: string | undefined) => {
-    const slugArr = slug?.split('-') || [];
-    let resArr = [];
-
-    for (let x = 0; x < slugArr?.length; x++) {
-      const fName1 = slug?.split('-')[x].charAt(0).toUpperCase();
-      const fName2 = slug?.split('-')[x].slice(1);
-      resArr.push(`${fName1}${fName2}`);
-    }
-    return resArr.join(' ');
-  };
-
   return (
     <>
       <h2 style={{ textAlign: 'center' }}>
@@ -197,6 +185,7 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
                   <option value='2'>2</option>
                   <option value='2a'>2a</option>
                   <option value='2b'>2b</option>
+                  <option value='3'>3</option>
                   <option value='3a'>3a</option>
                   <option value='3b'>3b</option>
                   <option value='4'>4</option>
