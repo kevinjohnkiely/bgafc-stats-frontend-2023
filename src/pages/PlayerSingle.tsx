@@ -94,7 +94,11 @@ const PlayerSingle = ({
               {/* {player?.image ? 'yes' : 'no'} */}
               <Image
                 src={player?.image}
-                style={{ marginBottom: '1rem' }}
+                style={{
+                  marginBottom: '1rem',
+                  padding: '0.5rem',
+                  border: '1px solid #339900',
+                }}
                 alt={`${player?.firstName} ${player?.lastName}`}
               />
               <Link to={`/addimage/${player?.slug}`}>
@@ -146,66 +150,71 @@ const PlayerSingle = ({
                 </tr>
               </thead>
               <tbody>
-                {player?.seasons.map((season) => (
-                  <tr key={season._id}>
-                    <td>
-                      {season.season}{' '}
-                      {loggedInUser && (
-                        <>
-                          <BiEdit
-                            size={24}
-                            color='#339900'
-                            onClick={() => {
-                              onSeasonEditClicked(season);
-                              navigate(
-                                `/addseason/${player?._id}/${player?.slug}/${season.team}`
-                              );
-                            }}
-                          />{' '}
-                          <TiDelete
-                            size={24}
-                            color='red'
-                            onClick={() => {
-                              handleShow();
-                              setSeasonToDelete(season._id);
-                            }}
-                          />
-                        </>
-                      )}
-                    </td>
-                    <td>{season.team}</td>
-                    <td>{season.division}</td>
-                    <td>
-                      {season.lge_apps} ({season.lge_goals})
-                    </td>
-                    <td>
-                      {season.fai_apps} ({season.fai_goals})
-                    </td>
-                    <td>
-                      {season.mjc_apps} ({season.mjc_goals})
-                    </td>
-                    <td>
-                      {season.msc_apps} ({season.msc_goals})
-                    </td>
-                    <td>
-                      {season.desc_apps} ({season.desc_goals})
-                    </td>
-                    <td>
-                      {season.lgec_apps} ({season.lgec_goals})
-                    </td>
-                    <td>
-                      {season.reidyc_apps} ({season.reidyc_goals})
-                    </td>
-                    <td>
-                      {season.hoganc_apps} ({season.hoganc_goals})
-                    </td>
-                    <td>
-                      {season.team === 'A'
-                        ? `${season.seasonTotalAppsA} (${season.seasonTotalGoalsA})`
-                        : `${season.seasonTotalAppsB} (${season.seasonTotalGoalsB})`}
-                    </td>
-                  </tr>
-                ))}
+                {player?.seasons
+                  .sort(function (a, b) {
+                    return parseInt(a.season.slice(0,4)) - parseInt(b.season.slice(0,4));
+                  })
+                  .map((season) => (
+                    <tr key={season._id}>
+                      <td>
+                        {season.season}{' '}
+                        {loggedInUser && (
+                          <>
+                            <BiEdit
+                              size={24}
+                              color='#339900'
+                              onClick={() => {
+                                onSeasonEditClicked(season);
+                                navigate(
+                                  `/addseason/${player?._id}/${player?.slug}/${season.team}`
+                                );
+                              }}
+                            />{' '}
+                            <TiDelete
+                              size={24}
+                              color='red'
+                              onClick={() => {
+                                handleShow();
+                                setSeasonToDelete(season._id);
+                              }}
+                            />
+                          </>
+                        )}
+                      </td>
+                      <td>{season.team}</td>
+                      <td>{season.division}</td>
+                      <td>
+                        {season.lge_apps} ({season.lge_goals})
+                      </td>
+                      <td>
+                        {season.fai_apps} ({season.fai_goals})
+                      </td>
+                      <td>
+                        {season.mjc_apps} ({season.mjc_goals})
+                      </td>
+                      <td>
+                        {season.msc_apps} ({season.msc_goals})
+                      </td>
+                      <td>
+                        {season.desc_apps} ({season.desc_goals})
+                      </td>
+                      <td>
+                        {season.lgec_apps} ({season.lgec_goals})
+                      </td>
+                      <td>
+                        {season.reidyc_apps} ({season.reidyc_goals})
+                      </td>
+                      <td>
+                        {season.hoganc_apps} ({season.hoganc_goals})
+                      </td>
+                      <td>
+                        {season.team === 'A'
+                          ? `${season.seasonTotalAppsA} (${season.seasonTotalGoalsA})`
+                          : `${season.seasonTotalAppsB} (${season.seasonTotalGoalsB})`}
+                      </td>
+                    </tr>
+                  ))
+                  .sort()}
                 {loggedInUser && (
                   <tr>
                     <td colSpan={13}>

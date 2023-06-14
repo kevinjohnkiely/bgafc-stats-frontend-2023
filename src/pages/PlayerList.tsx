@@ -1,17 +1,16 @@
-import { Player } from '../models/player';
+import { useState } from 'react';
+import { Button, Col, Modal, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
-import styles from './../styles/PlayerList.module.css';
+import { BiEdit } from 'react-icons/bi';
+import { FaSort } from 'react-icons/fa';
+import { TiDelete } from 'react-icons/ti';
+import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../components/common/Loader';
 import Notification from '../components/common/Notification';
-import { Link } from 'react-router-dom';
-import { BiEdit } from 'react-icons/bi';
-import { TiDelete } from 'react-icons/ti';
-import { FaSort } from 'react-icons/fa';
-import { Row, Col, Modal, Button } from 'react-bootstrap';
-import { useState } from 'react';
+import { Player } from '../models/player';
 import { User } from '../models/user';
-import { useNavigate } from 'react-router-dom';
+import styles from './../styles/PlayerList.module.css';
 
 interface PlayerListProps {
   players: Player[];
