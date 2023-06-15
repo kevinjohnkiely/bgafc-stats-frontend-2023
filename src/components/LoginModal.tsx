@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { User } from '../models/user';
-import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
+import { User } from '../models/user';
 import Loader from './common/Loader';
 import Notification from './common/Notification';
 
@@ -56,7 +56,7 @@ const LoginModal = ({ onDismiss, onLoginSuccess }: LoginModalProps) => {
         <Modal.Title>Log In</Modal.Title>
       </Modal.Header>
       <div>{error && <Notification message={error} />}</div>
-      <div>{isSubmitting && <Loader />}</div>
+      <div>{(isSubmitting || loading) && <Loader />}</div>
       <Modal.Body>
         <Form onSubmit={handleSubmit(onSubmitLogin)}>
           <Form.Group className='mb-3'>

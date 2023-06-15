@@ -101,11 +101,13 @@ const PlayerSingle = ({
                 }}
                 alt={`${player?.firstName} ${player?.lastName}`}
               />
-              <Link to={`/addimage/${player?.slug}`}>
-                <Button variant='success' onClick={onClearEditSeason}>
-                  Add/Edit Photo
-                </Button>
-              </Link>
+              {loggedInUser && (
+                <Link to={`/addimage/${player?.slug}`}>
+                  <Button variant='success' onClick={onClearEditSeason}>
+                    Add/Edit Photo
+                  </Button>
+                </Link>
+              )}
             </Col>
             <Col lg={10} md={8}>
               <span className={styles.greenBold}>
@@ -152,7 +154,10 @@ const PlayerSingle = ({
               <tbody>
                 {player?.seasons
                   .sort(function (a, b) {
-                    return parseInt(a.season.slice(0,4)) - parseInt(b.season.slice(0,4));
+                    return (
+                      parseInt(a.season.slice(0, 4)) -
+                      parseInt(b.season.slice(0, 4))
+                    );
                   })
                   .map((season) => (
                     <tr key={season._id}>
