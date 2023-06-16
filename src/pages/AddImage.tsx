@@ -4,7 +4,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { deslugify } from '../utils/deslugify';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import Loader from './common/Loader';
+import Loader from '../components/common/Loader';
 import Notification from '../components/common/Notification';
 
 const AddImage = () => {

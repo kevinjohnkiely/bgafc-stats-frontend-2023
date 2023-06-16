@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import header from './assets/images/header.jpg';
-import MainNav from './components/MainNav';
+import AdminNav from './components/AdminNav';
 import NotFoundPage from './pages/NotFoundPage';
 import PlayerList from './pages/PlayerList';
 import PlayerSingle from './pages/PlayerSingle';
 import styles from './styles/App.module.css';
 
-import AddEditPlayer from './components/AddEditPlayer';
-import AddEditSeason from './components/AddEditSeason';
 import LoginModal from './components/LoginModal';
 import { Player } from './models/player';
 import { Season } from './models/season';
 import { User } from './models/user';
-import AddImage from './components/AddImage';
+import AddEditPlayer from './pages/AddEditPlayer';
+import AddEditSeason from './pages/AddEditSeason';
+import AddImage from './pages/AddImage';
+import MainNav from './components/MainNav';
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
@@ -82,14 +83,17 @@ const App = () => {
       )}
 
       <header className={styles.pageMarginTop}>
-        <Image
-          // src={header}
-          alt='Ballingarry AFC stats 1984 - Present'
-          fluid
-          className={styles.headerImageFullWidth}
-        />
+        <Link to={'/'}>
+          <Image
+            src={header}
+            alt='Ballingarry AFC stats 1984 - Present'
+            fluid
+            className={styles.headerImageFullWidth}
+          />
+        </Link>
       </header>
-      <MainNav
+      <MainNav />
+      <AdminNav
         loggedInUser={loggedInUser}
         onLoginClicked={() => {
           setShowLoginModal(true);

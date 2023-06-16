@@ -3,8 +3,8 @@ import { Player } from '../models/player';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import TextInputField from './form/TextInputField';
-import Loader from './common/Loader';
+import TextInputField from '../components/form/TextInputField';
+import Loader from '../components/common/Loader';
 import Notification from '../components/common/Notification';
 
 interface AddEditPlayerProps {
@@ -41,7 +41,7 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
       position: playerToEdit?.position || '',
       debut: playerToEdit?.debut || '',
       firstGoal: playerToEdit?.firstGoal || '',
-      honours: playerToEdit?.honours || ''
+      honours: playerToEdit?.honours || '',
     },
   });
 
@@ -110,7 +110,7 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
     } else {
       playerResponse = await createPlayer(input);
     }
-    console.log(playerResponse)
+    console.log(playerResponse);
     onPlayerSaved(playerResponse);
   };
 

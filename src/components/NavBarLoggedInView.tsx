@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { User } from '../models/user';
 import { Button, Navbar } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { FaUserCircle } from 'react-icons/fa';
 
 interface NavBarLoggedInViewProps {
   user: User;
@@ -28,7 +29,13 @@ const NavBarLoggedInView = ({
 
   return (
     <>
-      <Navbar.Text className='me-2'>Logged in as: {user?.username}</Navbar.Text>
+      <Navbar.Text className='me-2'>
+        <FaUserCircle
+          size={24}
+          
+        />
+        {" "}Logged in as: {user?.username}
+      </Navbar.Text>
       <Button onClick={logoutUser} variant='danger'>
         Logout
       </Button>{' '}

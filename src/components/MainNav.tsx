@@ -1,58 +1,58 @@
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import styles from './../styles/MainNav.module.css';
-import { User } from '../models/user';
-import NavBarLoggedInView from './NavBarLoggedInView';
-import NavBarLoggedOutView from './NavBarLoggedOutView';
+import { Link } from 'react-router-dom';
 
-interface MainNavProps {
-  loggedInUser: User | null;
-  onLoginClicked: () => void;
-  onLoggedOut: () => void;
-}
-
-const MainNav = ({
-  loggedInUser,
-  onLoginClicked,
-  onLoggedOut
-}: MainNavProps) => {
+const MainNav = () => {
   return (
     <Navbar className={styles.bgDark} variant='dark' expand='sm'>
       <Container>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
-          <Nav.Link as={Link} to={'/'}>
-            All Players
+          <Nav.Link as={Link} to={'http://ballingarryafc.com/'}>
+            News
           </Nav.Link>
-          {loggedInUser ? (
-            <NavBarLoggedInView
-              user={loggedInUser}
-              onLogoutSuccess={onLoggedOut}
-            />
-          ) : (
-            <NavBarLoggedOutView onLoginClicked={onLoginClicked} />
-          )}
-          {/* <Nav className='me-auto'>
-            <Nav.Link href='#home'>Main Site</Nav.Link>
-            <Nav.Link as={Link} to={'/'}>
-              All Players
-            </Nav.Link>
-            <Nav.Link href='#link'>Add A Player</Nav.Link>
-            <Nav.Link as={Link} to={'/login'}>
-              Login/Logout
-            </Nav.Link>
-            <NavDropdown title='Dropdown' id='basic-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
+          <NavDropdown title='Results' id='basic-nav-dropdown'>
+            <NavDropdown.Item
+              as={Link}
+              to={'http://ballingarryafc.com/results/results/'}
+            >
+              Results
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              as={Link}
+              to={'http://ballingarryafc.com/results/results-archive/'}
+            >
+              Results Archive
+            </NavDropdown.Item>
+          </NavDropdown>
+          <NavDropdown title='Gallery' id='basic-nav-dropdown'>
+            <NavDropdown title='Gallery' id='basic-nav-dropdown'>
+              <NavDropdown.Item
+                as={Link}
+                to={'http://ballingarryafc.com/home-grounds/'}
+              >
+                Home Grounds
               </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
+              <NavDropdown.Item
+                as={Link}
+                to={'http://ballingarryafc.com/over-35s/'}
+              >
+                Over 35s Team
               </NavDropdown.Item>
             </NavDropdown>
-          </Nav> */}
+            <NavDropdown.Item
+              as={Link}
+              to={'http://ballingarryafc.com/home-grounds/'}
+            >
+              Home Grounds
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              as={Link}
+              to={'http://ballingarryafc.com/over-35s/'}
+            >
+              Over 35s Team
+            </NavDropdown.Item>
+          </NavDropdown>
         </Navbar.Collapse>
       </Container>
     </Navbar>

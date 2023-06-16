@@ -3,10 +3,10 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router';
-import Loader from './common/Loader';
-import Notification from './common/Notification';
+import Loader from '../components/common/Loader';
+import Notification from '../components/common/Notification';
 import { Season } from '../models/season';
-import TextInputField from './form/TextInputField';
+import TextInputField from '../components/form/TextInputField';
 import { deslugify } from '../utils/deslugify';
 
 interface AddEditSeasonProps {
