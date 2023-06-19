@@ -93,7 +93,7 @@ const App = () => {
         </Link>
       </header>
       <MainNav />
-      <AdminNav
+      {/* <AdminNav
         loggedInUser={loggedInUser}
         onLoginClicked={() => {
           setShowLoginModal(true);
@@ -103,7 +103,7 @@ const App = () => {
           setLoggedInUser(null);
           setShowLoggedOutMessage(true);
         }}
-      />
+      /> */}
       <Container fluid className={styles.routerPanel}>
         <Routes>
           <Route
