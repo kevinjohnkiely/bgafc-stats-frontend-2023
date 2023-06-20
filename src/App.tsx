@@ -30,10 +30,8 @@ const App = () => {
   const [showLoggedOutMessage, setShowLoggedOutMessage] = useState(false);
 
   useEffect(() => {
-    console.log('USE EFFECT RUNS in parent app');
     // LOAD THE PLAYER DATA
     const fetchPlayers = async () => {
-      console.log('fetch players running');
       setLoading(true);
       const data = await fetch(`/api/v1/players?sort=${queryStr}`, {
         method: 'GET',
@@ -93,7 +91,7 @@ const App = () => {
         </Link>
       </header>
       <MainNav />
-      {/* <AdminNav
+      <AdminNav
         loggedInUser={loggedInUser}
         onLoginClicked={() => {
           setShowLoginModal(true);
@@ -103,7 +101,8 @@ const App = () => {
           setLoggedInUser(null);
           setShowLoggedOutMessage(true);
         }}
-      /> */}
+      />
+      
       <Container fluid className={styles.routerPanel}>
         <Routes>
           <Route
@@ -136,57 +135,7 @@ const App = () => {
             <>
               <Route
                 path='/addseason/:playerId/:slug/:team'
-                element={
-                  <AddEditSeason
-                    seasonToEdit={seasonToEdit}
-                    // onSeasonSaved={(newSeason) => {
-                    //   const [findSeasonPlayer] = players.filter(
-                    //     (player) => player._id === newSeason.player
-                    //   );
-
-                    //   if (seasonToEdit) {
-                    //     if (
-                    //       seasonToEdit?.seasonTotalAppsA! >
-                    //       newSeason?.seasonTotalAppsA!
-                    //     ) {
-                    //       findSeasonPlayer.aTeamApps +=
-                    //         seasonToEdit?.seasonTotalAppsA! -
-                    //         newSeason?.seasonTotalAppsA!;
-                    //     } else {
-                    //       findSeasonPlayer.aTeamApps -=
-                    //         seasonToEdit?.seasonTotalAppsA! -
-                    //         newSeason?.seasonTotalAppsA!;
-                    //     }
-                    //   } else {
-                    //     if (newSeason.seasonTotalAppsA) {
-                    //       findSeasonPlayer.aTeamApps +=
-                    //         newSeason?.seasonTotalAppsA!;
-                    //       findSeasonPlayer.aTeamGoals +=
-                    //         newSeason?.seasonTotalGoalsA!;
-                    //     } else {
-                    //       findSeasonPlayer.bTeamApps +=
-                    //         newSeason?.seasonTotalAppsB!;
-                    //       findSeasonPlayer.bTeamGoals +=
-                    //         newSeason?.seasonTotalGoalsB!;
-                    //     }
-                    //     findSeasonPlayer.totalApps =
-                    //       findSeasonPlayer.aTeamApps +
-                    //       findSeasonPlayer.bTeamApps;
-                    //     findSeasonPlayer.totalGoals =
-                    //       findSeasonPlayer.aTeamGoals +
-                    //       findSeasonPlayer.bTeamGoals;
-                    //   }
-
-                    //   setPlayers(
-                    //     players.map((existingPlayer) =>
-                    //       existingPlayer._id === findSeasonPlayer._id
-                    //         ? findSeasonPlayer
-                    //         : existingPlayer
-                    //     )
-                    //   );
-                    // }}
-                  />
-                }
+                element={<AddEditSeason seasonToEdit={seasonToEdit} />}
               />
               <Route path='/addimage/:playerSlug' element={<AddImage />} />
               <Route

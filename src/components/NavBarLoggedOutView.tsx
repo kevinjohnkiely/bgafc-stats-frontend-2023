@@ -8,7 +8,7 @@ interface NavBarLoggedOutViewProps {
 const NavBarLoggedOutView = ({ onLoginClicked }: NavBarLoggedOutViewProps) => {
   return (
     <>
-      <Button onClick={onLoginClicked}>Login</Button>
+      <Button onClick={onLoginClicked} variant='success'>Admin Login</Button>
     </>
   );
 };

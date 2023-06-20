@@ -1,5 +1,7 @@
 .menu {
     background-image: linear-gradient(#336600, #003300);
+    position: relative;
+    z-index: 99;
 }
 .menu ul {
     margin: 0;
@@ -12,6 +14,7 @@
 }
 .menu ul li li:hover {
     background-color: yellow;
+    border-bottom: 1px dashed #336600;
 }
 .menu, .menu a {
     color: #ffcb00;
@@ -44,7 +47,7 @@
         display: none;
    }
     .menu a {
-        padding: 13px 18px;
+        padding: 8px 18px;
    }
     .menu > ul > li {
         display: inline-block;
@@ -95,7 +98,7 @@ body {
     line-height: 1.5;
 }
 .menuDropdown a {
-    padding: 15px 20px;
+    padding: 8px 15px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 /* narrow */
@@ -103,11 +106,11 @@ body {
     .menu > label {
         background: #336600;
         display: block;
-        padding: 15px 20px;
+        padding: 8px 15px;
         text-align: right;
    }
     .menu a {
-        padding: 15px 20px;
+        padding: 8px 15px;
    }
     .menu > ul i {
         float: right;

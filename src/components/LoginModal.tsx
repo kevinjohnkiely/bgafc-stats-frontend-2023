@@ -83,7 +83,7 @@ const LoginModal = ({ onDismiss, onLoginSuccess }: LoginModalProps) => {
               {errors.password?.message}
             </Form.Control.Feedback>
           </Form.Group>
-          <Button type='submit' disabled={isSubmitting}>
+          <Button type='submit' variant='success' disabled={isSubmitting}>
             Log In
           </Button>
         </Form>
