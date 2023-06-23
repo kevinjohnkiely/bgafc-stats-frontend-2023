@@ -8,6 +8,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import PlayerList from './pages/PlayerList';
 import PlayerSingle from './pages/PlayerSingle';
 import styles from './styles/App.module.css';
+import { apiUrl } from './utils/apiUrl';
 
 import LoginModal from './components/LoginModal';
 import { Player } from './models/player';
@@ -33,7 +34,7 @@ const App = () => {
     // LOAD THE PLAYER DATA
     const fetchPlayers = async () => {
       setLoading(true);
-      const data = await fetch(`/api/v1/players?sort=${queryStr}`, {
+      const data = await fetch(`${apiUrl}players?sort=${queryStr}`, {
         method: 'GET',
       });
       if (data.status === 500) {
@@ -52,7 +53,7 @@ const App = () => {
 
     // LOAD THE CURRENT USER, IF ANY
     const getLoggedInUser = async () => {
-      const response = await fetch('/api/v1/users/getuser', { method: 'GET' });
+      const response = await fetch(`${apiUrl}users/getuser`, { method: 'GET' });
       const user = await response.json();
       setLoggedInUser(user.data.user);
     };
@@ -60,7 +61,7 @@ const App = () => {
   }, [queryStr]);
 
   const deletePlayer = async (slug: string) => {
-    await fetch(`/api/v1/players/${slug}`, {
+    await fetch(`${apiUrl}players/${slug}`, {
       method: 'DELETE',
     });
     setPlayers(
@@ -102,7 +103,7 @@ const App = () => {
           setShowLoggedOutMessage(true);
         }}
       />
-      
+
       <Container fluid className={styles.routerPanel}>
         <Routes>
           <Route

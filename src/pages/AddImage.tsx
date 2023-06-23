@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/common/Loader';
 import Notification from '../components/common/Notification';
+import { apiUrl } from '../utils/apiUrl';
 
 const AddImage = () => {
   const { playerSlug } = useParams();
@@ -44,7 +45,7 @@ const AddImage = () => {
   const uploadImage = async (base64EncImage: string) => {
     setLoading(true);
     // console.log(base64EncImage);
-    const response = await fetch(`/api/v1/players/uploadphoto/${playerSlug}`, {
+    const response = await fetch(`${apiUrl}players/uploadphoto/${playerSlug}`, {
       method: 'POST',
       body: JSON.stringify({ data: base64EncImage, fileName: fileName }),
       headers: { 'Content-type': 'application/json' },

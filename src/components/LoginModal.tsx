@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { User } from '../models/user';
 import Loader from './common/Loader';
 import Notification from './common/Notification';
+import { apiUrl } from '../utils/apiUrl';
 
 interface LoginCredentials {
   username: string;
@@ -26,7 +27,7 @@ const LoginModal = ({ onDismiss, onLoginSuccess }: LoginModalProps) => {
   } = useForm<LoginCredentials>();
 
   const onSubmitLogin = async (creds: LoginCredentials) => {
-    const response = await fetch('/api/v1/users/login', {
+    const response = await fetch(`${apiUrl}users/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -46,7 +47,7 @@ const LoginModal = ({ onDismiss, onLoginSuccess }: LoginModalProps) => {
       setLoading(false);
     } else {
       setLoading(false);
-      onLoginSuccess(user.data.user)
+      onLoginSuccess(user.data.user);
     }
   };
 

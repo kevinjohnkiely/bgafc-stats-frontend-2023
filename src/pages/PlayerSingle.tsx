@@ -20,6 +20,7 @@ import { User } from '../models/user';
 import { BiEdit } from 'react-icons/bi';
 import { TiDelete } from 'react-icons/ti';
 import { Season } from '../models/season';
+import { apiUrl } from '../utils/apiUrl';
 
 interface PlayerSingleProps {
   loggedInUser: User | null;
@@ -47,7 +48,7 @@ const PlayerSingle = ({
     const fetchPlayer = async () => {
       console.log('USE EFFECT RUNS in player single');
       setLoading(true);
-      const data = await fetch(`/api/v1/players/${slug}`);
+      const data = await fetch(`${apiUrl}players/${slug}`);
       if (data.status === 500) {
         setError('Server Error: Please try again soon.');
         setLoading(false);
@@ -67,7 +68,7 @@ const PlayerSingle = ({
   }, [slug]);
 
   const deleteSeason = async (seasonId: string) => {
-    await fetch(`/api/v1/seasons/${seasonId}`, {
+    await fetch(`${apiUrl}seasons/${seasonId}`, {
       method: 'DELETE',
     });
     console.log(seasonId);

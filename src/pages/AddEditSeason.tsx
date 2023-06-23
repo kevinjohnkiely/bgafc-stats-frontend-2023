@@ -8,6 +8,7 @@ import Notification from '../components/common/Notification';
 import { Season } from '../models/season';
 import TextInputField from '../components/form/TextInputField';
 import { deslugify } from '../utils/deslugify';
+import { apiUrl } from '../utils/apiUrl';
 
 interface AddEditSeasonProps {
   seasonToEdit?: Season | null;
@@ -72,7 +73,7 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
   const createSeason = async (season: SeasonInput) => {
     setLoading(true);
 
-    const response = await fetch(`/api/v1/players/${playerId}/seasons`, {
+    const response = await fetch(`${apiUrl}players/${playerId}/seasons`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -100,7 +101,7 @@ const AddEditSeason = ({ seasonToEdit }: AddEditSeasonProps) => {
   const editSeason = async (input: SeasonInput, seasonId: string) => {
     setLoading(true);
 
-    const response = await fetch(`/api/v1/seasons/${seasonId}`, {
+    const response = await fetch(`${apiUrl}seasons/${seasonId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

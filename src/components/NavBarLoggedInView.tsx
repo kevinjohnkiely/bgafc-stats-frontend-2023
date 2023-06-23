@@ -3,6 +3,7 @@ import { User } from '../models/user';
 import { Button, Navbar } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
+import { apiUrl } from '../utils/apiUrl';
 
 interface NavBarLoggedInViewProps {
   user: User;
@@ -17,7 +18,7 @@ const NavBarLoggedInView = ({
   const [error, setError] = useState('');
 
   const logoutUser = async () => {
-    const response = await fetch('/api/v1/users/logout', { method: 'POST' });
+    const response = await fetch(`${apiUrl}users/logout`, { method: 'POST' });
 
     if (response.status === 500) {
       setError('Failed to log out! Please try again soon...');
@@ -30,11 +31,7 @@ const NavBarLoggedInView = ({
   return (
     <>
       <Navbar.Text className='me-2'>
-        <FaUserCircle
-          size={24}
-          
-        />
-        {" "}Logged in as: {user?.username}
+        <FaUserCircle size={24} /> Logged in as: {user?.username}
       </Navbar.Text>
       <Button onClick={logoutUser} variant='danger'>
         Logout

@@ -4,9 +4,10 @@ import { FaCaretDown, FaCaretRight, FaBars } from 'react-icons/fa';
 const MainNav = () => {
   return (
     <nav role='navigation' className={styles.menu}>
-      <label htmlFor='menu'>
+      <label htmlFor='full-menu'>
         <FaBars size={28} style={{ color: 'white' }} />
       </label>
+      <input type='checkbox' id='full-menu' />
       <ul>
         <li>
           <a href='http://ballingarryafc.com/'>Home</a>
@@ -18,6 +19,7 @@ const MainNav = () => {
               <FaCaretDown />
             </label>
           </a>
+          <input type='checkbox' id='results' />
           <ul className={styles.menuDropdown}>
             <li>
               <a href='http://ballingarryafc.com/results/results-archive'>
@@ -33,6 +35,7 @@ const MainNav = () => {
               <FaCaretDown />
             </label>
           </a>
+          <input type='checkbox' id='gallery' />
           <ul className={styles.menuDropdown}>
             <li className={`${styles.menuHasdropdown} ${styles.menuHasflyout}`}>
               <a href=''>

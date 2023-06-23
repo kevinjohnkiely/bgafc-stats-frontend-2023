@@ -6,6 +6,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import TextInputField from '../components/form/TextInputField';
 import Loader from '../components/common/Loader';
 import Notification from '../components/common/Notification';
+import { apiUrl } from '../utils/apiUrl';
 
 interface AddEditPlayerProps {
   playerToEdit?: Player | null;
@@ -48,7 +49,7 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
   const createPlayer = async (player: PlayerInput) => {
     setLoading(true);
 
-    const response = await fetch('/api/v1/players', {
+    const response = await fetch(`${apiUrl}players`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -76,7 +77,7 @@ const AddEditPlayer = ({ playerToEdit, onPlayerSaved }: AddEditPlayerProps) => {
   const editPlayer = async (slug: string, player: PlayerInput) => {
     setLoading(true);
 
-    const response = await fetch(`/api/v1/players/${slug}`, {
+    const response = await fetch(`${apiUrl}players/${slug}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
